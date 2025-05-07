@@ -102,6 +102,11 @@ public:
 };
 // cgvhbjnm
 struct Graph{
-    
+    GraphNode* top;
+
+
 }
+
+
+
 #endif
