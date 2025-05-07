@@ -101,5 +101,7 @@ public:
     }
 };
 // cgvhbjnm
-
+struct Graph{
+    
+}
 #endif
