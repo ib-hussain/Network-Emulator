@@ -37,7 +37,12 @@ private:
             return true;
         }
         else{
-
+            GPtrsNode* newNode = new GPtrsNode(weighti, newNode);
+            newNode->nextnode = tail->nextnode;
+            tail->nextnode = newNode;
+            tail = newNode;
+            nodes++;
+            return true;
         }
         return false;
     }
