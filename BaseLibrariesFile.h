@@ -14,5 +14,5 @@ using namespace std;
 #define NULLpointer nullptr
 // #define
 // make macro for reference to pointer type assignement
-
+// and also we need to define all constants here for the project 
 #endif
