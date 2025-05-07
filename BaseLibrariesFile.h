@@ -15,4 +15,5 @@ using namespace std;
 // #define
 // make macro for reference to pointer type assignement
 // and also we need to define all constants here for the project 
+//changing temporarily 
 #endif
