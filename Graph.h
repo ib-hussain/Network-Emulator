@@ -26,6 +26,7 @@ private:
 };
 struct GPtrs{
 private:
+    // this is a singly circular linked list that stores the pointers to the other nodes in the graph
     GPtrsNode* tail;
     int nodes;
     bool insert(GraphNode* newNode, int weighti){
