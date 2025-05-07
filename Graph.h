@@ -71,7 +71,23 @@ private:
 public:
     GPtrs(): head(NULLpointer), tail(NULLpointer), nodes(-1) {}
     GPtrsNode& operator[](int i){
-        
+        static GPtrsNode NullNode;
+        if(i < 0 || i >= nodes) return NullNode;
+        GPtrsNode* current = tail->nextnode;
+        for(int j = 0; j < i; j++){
+            current = current->nextnode;
+        }
+        return (*current);
+    }
+    GPtrsNode& operator[](GraphNode* node){
+        static GPtrsNode NullNode;
+        if(ifempty()) return NullNode;
+        GPtrsNode* current = tail->nextnode;
+        do{
+            if(current->connection == node) return (*current);
+            current = current->nextnode;
+        }while(current != tail->nextnode);
+        return NullNode;
     }
     ~GPtrs(){
         GPtrsNode* current = tail->nextnode;
@@ -84,6 +100,6 @@ public:
         delete tail;
     }
 };
-
+// cgvhbjnm
 
 #endif
