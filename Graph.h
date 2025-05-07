@@ -46,11 +46,42 @@ private:
         }
         return false;
     }
-    bool remove
+    bool remove(GraphNode* node){
+        if(!tail) return false;
+        GPtrsNode* current = tail->nextnode;
+        GPtrsNode* previous = tail;
+        do{
+            if(current->connection == node){
+                if(current == tail){
+                    tail = previous;
+                }
+                previous->nextnode = current->nextnode;
+                delete current;
+                nodes--;
+                return true;
+            }
+            previous = current;
+            current = current->nextnode;
+        }while(current != tail->nextnode);
+        return false;
+    }
+    bool ifempty(){
+        return (tail == NULLpointer);
+    }
 public:
     GPtrs(): head(NULLpointer), tail(NULLpointer), nodes(-1) {}
     GPtrsNode& operator[](int i){
         
+    }
+    ~GPtrs(){
+        GPtrsNode* current = tail->nextnode;
+        GPtrsNode* next = NULLpointer;
+        do{
+            next = current->nextnode;
+            delete current;
+            current = next;
+        }while(current != tail->nextnode);
+        delete tail;
     }
 };
 
