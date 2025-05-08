@@ -13,7 +13,7 @@ struct GPtrsNode{
     GraphNode* connection;
     GPtrsNode(): weight(NULLint), connection(NULLpointer),  nextnode(NULLpointer) {}
     GPtrsNode(int weighti, GraphNode* nexti): weight(weighti), connection(nexti) , nextnode(NULLpointer) {}
-    
+    //xfcvgh
     friend class GPtrs;
     int& operator*(){
         return weight;
