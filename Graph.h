@@ -1,10 +1,11 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "BaseLibrariesFile.h"
-template <class dtype1 = int>//configure isf this type is okay for this project
+template <class dtype1 = int>//configure if this type is okay for this project
 struct GraphNode{
-    dtype data;// this can be any datatype we choose to use in the graph
+    int data;// this can be any datatype we choose to use in the graph
     GPtrs pointers;
+    GraphNode():data(NULLint){}
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
     // this is a singly linked list of pointers to the other nodes in the graph
 };
@@ -100,13 +101,86 @@ public:
         delete tail;
     }
 };
-// cgvhbjnm
-struct Graph{
-    GraphNode* top;
-
-//drftghjk
-}
-
+struct LLNode{
+    int data;//make this template later
+    LLNode* left;
+    LLNode* right;
+    LLNode* up;
+    LLNode* down;
+    LLNode():data(NULLint), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
+    LLNode(int datai):data(datai), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
+};
+struct 2DLL{
+private:
+    LLNode** o0_0o;
+    int rows;
+    int columns;
+public:
+    2DLL(){
+        o0_0o = NULLpointer;
+    }
+    bool initialise(int rows1, int columns1){
+        if(rows1 <= 0 || columns1 <= 0) return false;
+        rows = rows1;
+        columns = columns1;
+        o0_0o = new LLNode*[rows];
+        for(int i = 0; i < rows; i++){
+            o0_0o[i] = new LLNode[columns];
+            for(int j = 0; j < columns; j++){
+                o0_0o[i][j].left = (j == 0) ? NULLpointer : &o0_0o[i][j-1];
+                o0_0o[i][j].right = (j == columns-1) ? NULLpointer : &o0_0o[i][j+1];
+                o0_0o[i][j].up = (i == 0) ? NULLpointer : &o0_0o[i-1][j];
+                o0_0o[i][j].down = (i == rows-1) ? NULLpointer : &o0_0o[i+1][j];
+            }
+        }
+        return true;
+    }
+    bool resize(int rows1, int columns1){
+        if(rows1 <= 0 || columns1 <= 0) return false;
+        LLNode** new_o0_0o = new LLNode*[rows1];
+        for(int i = 0; i < rows1; i++){
+            new_o0_0o[i] = new LLNode[columns1];
+            for(int j = 0; j < columns1; j++){
+                if(i < rows && j < columns){
+                    new_o0_0o[i][j] = o0_0o[i][j];
+                }
+                else{
+                    new_o0_0o[i][j].left = (j == 0) ? NULLpointer : &new_o0_0o[i][j-1];
+                    new_o0_0o[i][j].right = (j == columns1-1) ? NULLpointer : &new_o0_0o[i][j+1];
+                    new_o0_0o[i][j].up = (i == 0) ? NULLpointer : &new_o0_0o[i-1][j];
+                    new_o0_0o[i][j].down = (i == rows1-1) ? NULLpointer : &new_o0_0o[i+1][j];
+                }
+            }
+        }
+        for(int i = 0; i < rows; i++){
+            delete[] o0_0o[i];
+        }
+        delete[] o0_0o;
+        o0_0o = new_o0_0o;
+        rows = rows1;
+        columns = columns1;
+        return true;
+    }
+    LLNode& get(int i, int j){
+        if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
+        return o0_0o[i][j];
+    }
+    ~LLNode(){
+        for(int i = 0; i < rows; i++){
+            delete[] o0_0o[i];
+        }
+        delete[] o0_0o;
+    }
+};
+// struct Graph{
+//     GraphNode<int>* top;
+//     int nodes;
+//     2DLL connection_list;
+//     Graph():top(NULLpointer){
+//     }
+//     bool insert(int data, int to_which node){
+//     }
+// };
 
 
 #endif
