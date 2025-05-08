@@ -1,0 +1,7 @@
+#wajeeha
+
+Incoming Queue is a heap(priority queue), priority is represented by an int from 1 to 10
+so basically a node for this this will have 3 data members:
+-Pointer to next node
+-short int priority;(10 is highest priority so it should be Dequeued first, then the rest)
+-T3 data(where T3 is the name of the variable that represnetns the datatype for data which can be any since we are using templates)

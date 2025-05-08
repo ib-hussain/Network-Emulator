@@ -13,9 +13,10 @@ using namespace std;
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
-// #define
-// make macro for reference to pointer type assignement
 // and also we need to define all constants here for the project
+const short int latency_queue_forwarding=0;
+
+// make macro for reference to pointer type assignement maybe
 
 struct String
 {
@@ -23,7 +24,7 @@ private:
     char *data;
 
 public:
-    String(const char *input = "")
+    String(const char *input = NULLstring)
     {
         int length = 0;
         while (input[length] != '\0')

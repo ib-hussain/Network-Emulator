@@ -1,0 +1,3 @@
+#aleesha
+The outgoing queue is just a normal queue which actually recieves whatever is dequeued from the priority queue
+add a ctime library function to make the Dequeue function wait latency_queue_forwarding this variable amount of time(the variable is defined and can be changed from base library file)
