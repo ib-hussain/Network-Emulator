@@ -1,44 +1,46 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "BaseLibrariesFile.h"
-template <class dtype1 = int>//configure if this type is okay for this project
+template <class D_Grphi1 = int>//configure if this type is okay for this project
 struct GraphNode{
-    int data;// this can be any datatype we choose to use in the graph
-    GPtrs pointers;
-    GraphNode():data(NULLint){}
+    D_Grphi1 data;// this can be any datatype we choose to use in the graph
+    GPtrs<D_Grphi1> pointers;
+    // GraphNode():data(NULLint){}//make proper constreuctor later
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
     // this is a singly linked list of pointers to the other nodes in the graph
 };
+template <class D_Grphi2 = int>//configure if this type is okay for this project
 struct GPtrsNode{
     int weight;
-    GraphNode* connection;
+    GraphNode<D_Grphi2>* connection;
     GPtrsNode(): weight(NULLint), connection(NULLpointer),  nextnode(NULLpointer) {}
-    GPtrsNode(int weighti, GraphNode* nexti): weight(weighti), connection(nexti) , nextnode(NULLpointer) {}
+    GPtrsNode(int weighti, GraphNode<D_Grphi2>* nexti): weight(weighti), connection(nexti) , nextnode(NULLpointer) {}
     //xfcvgh
-    friend class GPtrs;
+    friend class GPtrs<D_Grphi2>;
     int& operator*(){
         return weight;
     }
-    GraphNode* operator>>(int i=NULLint){
+    GraphNode<D_Grphi2>* operator>>(int i=NULLint){
         return connection;
     }
 private:
-    GPtrsNode* nextnode;
+    GPtrsNode<D_Grphi2>* nextnode;
 };
+template <class D_Grphi3 = int>//configure if this type is okay for this project
 struct GPtrs{
 private:
     // this is a singly circular linked list that stores the pointers to the other nodes in the graph
-    GPtrsNode* tail;
+    GPtrsNode<D_Grphi3>* tail;
     int nodes;
-    bool insert(GraphNode* newNode, int weighti){
+    bool insert(GraphNode<D_Grphi3>* newNode, int weighti){
         if(!tail){
-            tail = new GPtrsNode(weighti, newNode);//fix this constructor call here
+            tail = new GPtrsNode<D_Grphi3>(weighti, newNode);//fix this constructor call here
             tail->nextnode = tail;
             nodes++;
             return true;
         }
         else{
-            GPtrsNode* newNode = new GPtrsNode(weighti, newNode);
+            GPtrsNode* newNode = new GPtrsNode<D_Grphi3>(weighti, newNode);
             newNode->nextnode = tail->nextnode;
             tail->nextnode = newNode;
             tail = newNode;
@@ -47,10 +49,10 @@ private:
         }
         return false;
     }
-    bool remove(GraphNode* node){
+    bool remove(GraphNode<D_Grphi3>* node){
         if(!tail) return false;
-        GPtrsNode* current = tail->nextnode;
-        GPtrsNode* previous = tail;
+        GPtrsNode<D_Grphi3>* current = tail->nextnode;
+        GPtrsNode<D_Grphi3>* previous = tail;
         do{
             if(current->connection == node){
                 if(current == tail){
@@ -71,19 +73,19 @@ private:
     }
 public:
     GPtrs(): head(NULLpointer), tail(NULLpointer), nodes(-1) {}
-    GPtrsNode& operator[](int i){
-        static GPtrsNode NullNode;
+    GPtrsNode<D_Grphi3>& operator[](int i){
+        static GPtrsNode<D_Grphi3> NullNode;
         if(i < 0 || i >= nodes) return NullNode;
-        GPtrsNode* current = tail->nextnode;
+        GPtrsNode<D_Grphi3>* current = tail->nextnode;
         for(int j = 0; j < i; j++){
             current = current->nextnode;
         }
         return (*current);
     }
-    GPtrsNode& operator[](GraphNode* node){
-        static GPtrsNode NullNode;
+    GPtrsNode<D_Grphi3>& operator[](GraphNode<D_Grphi3>* node){
+        static GPtrsNode<D_Grphi3> NullNode;
         if(ifempty()) return NullNode;
-        GPtrsNode* current = tail->nextnode;
+        GPtrsNode<D_Grphi3>* current = tail->nextnode;
         do{
             if(current->connection == node) return (*current);
             current = current->nextnode;
@@ -91,8 +93,8 @@ public:
         return NullNode;
     }
     ~GPtrs(){
-        GPtrsNode* current = tail->nextnode;
-        GPtrsNode* next = NULLpointer;
+        GPtrsNode<D_Grphi3>* current = tail->nextnode;
+        GPtrsNode<D_Grphi3>* next = NULLpointer;
         do{
             next = current->nextnode;
             delete current;
@@ -110,7 +112,7 @@ struct LLNode{
     LLNode():data(NULLint), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
     LLNode(int datai):data(datai), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
 };
-struct 2DLL{
+struct D2LL{
 private:
     LLNode** o0_0o;
     int rows;
@@ -172,15 +174,17 @@ public:
         delete[] o0_0o;
     }
 };
-// struct Graph{
-//     GraphNode<int>* top;
-//     int nodes;
-//     2DLL connection_list;
-//     Graph():top(NULLpointer){
-//     }
-//     bool insert(int data, int to_which node){
-//     }
-// };
+template <class D_Grphi4 = int>//configure if this type is okay for this project
+struct Graph{
+    GraphNode<D_Grphi4>* top;
+    int nodes;
+    D2LL connection_list;
+    Graph():top(NULLpointer){
+    }
+    bool insert(int data, int to_which node){
+        top->
+    }
+};
 
 
 #endif
