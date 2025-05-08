@@ -14,7 +14,7 @@ using namespace std;
 #define NULLpointer nullptr
 // #define
 // make macro for reference to pointer type assignement
-// and also we need to define all constants here for the project 
+// and also we need to define all constants here for the project
 
 struct String
 {
@@ -97,29 +97,29 @@ public:
         s.data[length] = '\0';
         return in;
     }
+    String slice(int start, int end) const
+    {
+        int length = len();
+
+        // Bounds correction
+        if (start < 0)
+            start = 0;
+        if (end > length)
+            end = length;
+        if (start > end)
+            start = end;
+
+        int new_len = end - start;
+        char *sliced = new char[new_len + 1];
+
+        for (int i = 0; i < new_len; i++)
+            sliced[i] = data[start + i];
+        sliced[new_len] = '\0';
+
+        String result(sliced);
+        delete[] sliced;
+        return result;
+    }
 };
-String slice(int start, int end) const
-{
-    int length = len();
-
-    // Bounds correction
-    if (start < 0)
-        start = 0;
-    if (end > length)
-        end = length;
-    if (start > end)
-        start = end;
-
-    int new_len = end - start;
-    char *sliced = new char[new_len + 1];
-
-    for (int i = 0; i < new_len; i++)
-        sliced[i] = data[start + i];
-    sliced[new_len] = '\0';
-
-    String result(sliced);
-    delete[] sliced;
-    return result;
-}
 
 #endif
