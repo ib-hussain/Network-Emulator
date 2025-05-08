@@ -19,3 +19,9 @@ so basically a node for this this will have 3 data members:
 The outgoing queue is just a normal queue which actually recieves whatever is dequeued from the priority queue
 add a ctime library function to make the Dequeue function wait latency_queue_forwarding this variable amount of time(the variable is defined and can be changed from base library file)
 
+
+make splaying tree:
+it is almost like AVL, 
+but the difference is that every time a node is accessed, it is made root, and the rest of the elements are balanced according to the new root in such a manner that this tree also acts as a BST
+add a bool access variable to the nodes so a record of last accessed node can be kept and made into root
+and for proper funcionality, take 2 trees where every new root becomes root of new tree while the old is popped onto the new one and deleted, kind of like using 2 queues for stacks
