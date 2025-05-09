@@ -16,6 +16,54 @@ public:
         next = NULLpointer;
         priority = p;
     }
+
+   
+    PQ_Node(PQ_Node<PQ_DT1>& copy)
+    {
+        data=copy.data;
+        priority=copy.priority;
+        if(copy.next!=NULLpointer)
+        {
+            next = new PQ_Node<PQ_DT1>(*copy.next);
+        }
+    else
+        {next = NULLpointer;}
+    }
+
+    PQ_Node(PQ_Node<PQ_DT1>* copy)
+    {
+        if(copy==NULLpointer)
+    {
+        next=NULLpointer;
+        return;
+    }
+        data=copy.data;
+        priority=copy.priority;
+        if(copy->next!=NULLpointer)
+        {
+            next = new PQ_Node<PQ_DT1>(copy->next);
+        }
+    else
+        {next = NULLpointer;}
+
+    }
+
+    PQ_Node &operator=(const PQ_Node&op)
+    {
+      if (this!=&op)
+    {
+        data=op.data;
+        priority=op.priority;
+        delete next;
+        next=NULLpointer;
+        if (op.next!=NULLpointer)
+            {
+                next=new PQ_Node(*op.next);
+            }
+    }
+    return *this;
+    }
+
 };
 
 template <class PQ_DT2 = int>
@@ -118,7 +166,7 @@ public:
             temp = temp->next;
         }
 
-        cout << "NULL";
+        cout << "NULL"<<endl;
     }
     // OPERATOR OVERLOADING - max-priority
     PQ_Node<PQ_DT2>& operator[](int key) const
@@ -135,7 +183,7 @@ public:
             count++;
         }
         // cout << "invalid position: " << key << endl;
-        return (PQ_Node<PQ_DT2>());
+        return *(new PQ_Node<PQ_DT2>(PQ_DT2(), -1));
     }
 
     // DESTRUCTOR- max-priority
