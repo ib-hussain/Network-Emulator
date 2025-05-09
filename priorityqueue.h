@@ -121,21 +121,21 @@ public:
         cout << "NULL";
     }
     // OPERATOR OVERLOADING - max-priority
-    PQ_DT2& operator[](int key) const
+    PQ_Node<PQ_DT2>& operator[](int key) const
     {
         PQ_Node<PQ_DT2> *temp = head;
         int count = 0;
-        while (temp != NULLpointer)
+        while (temp)
         {
             if (count == key)
             {
-                return temp->data;
+                return *temp;
             }
             temp = temp->next;
             count++;
         }
-        cout << "invalid position: " << key << endl;
-        return (PQ_DT2());
+        // cout << "invalid position: " << key << endl;
+        return (PQ_Node<PQ_DT2>());
     }
 
     // DESTRUCTOR- max-priority
