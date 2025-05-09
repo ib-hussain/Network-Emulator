@@ -67,12 +67,11 @@ public:
             index = len() - 1; // handle out of bounds
         return data[index];    // no bounds checking
     }
-    const char &operator[](int index) const
+    const char &operator[](int index)
     {
         return data[index];
     }
-    int len() const
-    {
+    int len() {
         int length = 0;
         while (data[length] != '\0')
             length++;
@@ -99,7 +98,7 @@ public:
         s.data[length] = '\0';
         return in;
     }
-    String slice(int start, int end) const
+    String slice(int start, int end)
     {
         int length = len();
 
