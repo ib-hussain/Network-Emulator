@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include "BaseLibrariesFile.h" // Ensure this file exists in the same directory or provide the correct path
+#include <ctime> // Added for time functions
 
 // Ensure this file exists in the same directory as Queue.h         // Include for ostream
 // making a queue class that will be used in the graph class to hold the nodes that are being visited in the graph
@@ -15,94 +16,128 @@
 // const int FULL_INT = -32767; // constant to hold the value of the full int
 // this is a constant that will be used to check if the queue is empty or not
 
+// Forward declaration of the Queue class template
+template <typename T>
+class Queue;
+
 template <typename T = int>
-struct Q_Node{//node desgigned for queue
-    // node class that will hold the data and the next pointer
+struct Q_Node {
     T data;
     long long int ID;
-    Q_Node(T value){
-        this->data = value;
-        this->next = NULLpointer;
-        ID = 1 + enhancer;
-        enhancer++; // ID of the node is set to 1 + enhancer
-    }
-    friend class Queue<T>;
-    ~Q_Node(){// default constructor
-        delete this->data ;
-        this->next = NULLpointer;
-    }
-private:
     Q_Node* next;
     static long long int enhancer;
+
+    Q_Node(T value) {
+        this->data = value;
+        this->next = nullptr;
+        ID = 1 + enhancer;
+        enhancer++;
+    }
+
+    ~Q_Node() {
+        this->next = nullptr;
+    }
+
+    friend class Queue<T>;
 };
-long long int Q_Node<T>::enhancer = (-1 * FULLint); // static variable to hold the ID of the node
+
+template <typename T>
+long long int Q_Node<T>::enhancer = -32767; // Assuming FULLint = -32767
+
+//
 
 template <typename T1 = int>
-struct Queue{
-private:
-    Q_Node<T1> *head;
-    Q_Node<T1> *tail;
+struct Queue {
+    Q_Node<T1>* head;
+    Q_Node<T1>* tail;
     int size;
-public:
-    Queue(){
-        head = NULLpointer;
-        tail = NULLpointer;
-        size = -1;}
-    bool Enqueue(T1& value){
-        Q_Node<T1> *nn = new Q_Node<T1>(value);
-        if (!head){
+    Queue() {
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
+    }
+
+    bool Enqueue(T1& value) {
+        Q_Node<T1>* nn = new Q_Node<T1>(value);
+        if (!head) {
             head = nn;
             tail = nn;
-            size++;
-            return true;
-        }
-        else{
+        } else {
             tail->next = nn;
             tail = nn;
-            size++;
-            return true;
         }
-        return false;
+        size++;
+        return true;
     }
-    T1& Dequeue(){// Remove redundant check as it duplicates the previous condition
-        // Remove redundant check as it duplicates the previous condition
+
+    T1 Dequeue() {
         static T1 NullNode4;
-        if (head == NULLpointer) return NullNode4; // base case if
-        // queue is empty
-        int value = head->data;
-        Q_Node<T1> *temp = head;
+        if (head == nullptr) return NullNode4;
+        
+        // Add latency before dequeuing
+        clock_t start_time = clock();
+        while ((clock() - start_time) < latency_queue_forwarding * CLOCKS_PER_SEC / 1000) // Convert milliseconds to clock ticks
+        // while (latency_queue_forwarding > 0) // Uncomment this line if you want to use a busy wait
+        {// wait
+        }
+        
+        T1 value = head->data;
+        Q_Node<T1>* temp = head;
         head = head->next;
         delete temp;
         size--;
         return value;
     }
-    bool isEmpty(){return size == -1;}
-    friend ostream &operator<<(ostream &os, const Queue<T> &queue){// not a necessary function
-        Q_Node<T1> *current = Queue.head;
-        //        Q_Node<int>* current = queue.head;
-        while (current != NULL)
-        {
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    friend ostream& operator<<(ostream& os, const Queue<T1>& queue) {
+        Q_Node<T1>* current = queue.head;
+        while (current != nullptr) {
             os << current->data << " ";
             current = current->next;
         }
         return os;
     }
-    Q_Node<T1>& operator[](int index){
-        static Q_Node<T1> NullNode3;
-        if (index < 0 || index > size) return NullNode3; 
-        Q_Node<T1> *current = head;
-        for (int i = 0; i < =index; i++){
-            current = current->next;
-        }
-        return *current;
+
+    Q_Node<T1>* operator[](int index) {
+    if (index < 0 || index >= size) {
+        return nullptr;  // Return nullptr for invalid index
     }
-    ~Queue(){
-        while (!isEmpty()){
-            Dequqeue();        
+    Q_Node<T1>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current;
+}
+
+    ~Queue() {
+        while (!isEmpty()) {
+            Dequeue();
         }
-        Dequeue(); 
+    }
+
+   // The outgoing queue is just a normal queue which actually recieves whatever is dequeued from the priority queue
+// dd a ctime library function to make the Dequeue 
+//function wait latency_queue_forwarding this variable amount of time(the variable is defined and can be changed from base library file)
+
+    // this is a function that will be used to get the size of the queue
+    int getSize() {
+        return size;
+    }
+
+    // this is a function that will be used to get the head of the queue
+    Q_Node<T1>* getHead() {
+        return head;
+    }
+
+    // this is a function that will be used to get the tail of the queue
+    Q_Node<T1>* getTail() {
+        return tail;
     }
 };
-// destination adress variable
 
 #endif // QUEUE_H
+// destination adress variable
