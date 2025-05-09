@@ -17,7 +17,6 @@ using namespace std;
 const short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
 // make macro for reference to pointer type assignement maybe
-// /rghjk
 struct String
 {
 private:
