@@ -1,172 +1,150 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
-#include <iostream>
-using namespace std;
-template <class PQ_DT1 = short int>
+#include "BaseLibrariesFile.h"
+template <class PQ_DT1 = int>
 class PQ_Node
 {
-    public:
+public:
     PQ_DT1 data;
     PQ_Node *next;
-    PQ_DT1 priority;
+    short int priority;
+
 public:
-PQ_Node(PQ_DT1 value,PQ_DT1 p)
+    PQ_Node(PQ_DT1 value, short int p)
     {
-        data=value;
-        next=NULLpointer;
-        priority=p;
+        data = value;
+        next = NULLpointer;
+        priority = p;
     }
 };
 
-template <class PQ_DT2 =short int>
-class PQ
-{
-    public:
-    PQ_Node<PQ_DT2> *head=NULLpointer;
-    
-    PQ()
-     {
+template <class PQ_DT2 = int>
+class PQ{
+public:
+    PQ_Node<PQ_DT2> *head ;
+    PQ(){
         head = NULLpointer;
     }
-
-bool isEmpty()
-{
-    return head==NULLpointer;
-}
-
-
-//max-priority queue
-//insertion- max-priority
-void insertionMAXpriority(PQ_DT2 val,PQ_DT2 priority)
-{
-    PQ_Node<PQ_DT2> *NN=new PQ_Node<PQ_DT2>(val,priority);
-    if(head==NULLpointer||head->priority<NN->priority)
+    bool isEmpty()
     {
-        NN->next=head;
-        head=NN;
+        return head == NULLpointer;
     }
-    else
+    // max-priority queue
+    // insertion- max-priority
+    void insertionMAXpriority(PQ_DT2 val, short int priority)
     {
-        PQ_Node<PQ_DT2> *temp=head;
-   while(temp->next != NULLpointer&&temp->next->priority>=priority)
-   {
-    temp=temp->next;
-   }
-   
-    NN->next=temp->next;
-    temp->next=NN; 
-    
-    }
-}
-//deletion- max-priority
-void deletionMAXpriority()
-{
-    
-    if(isEmpty())
-    {
-        cout<<"Queue is empty"<<endl;
-        return PQ_DT2();
-
-    }
-
-    PQ_Node<PQ_DT2> *temp=head;
-    if(temp->next == NULLpointer || temp->priority>temp->next->priority)
-    {
-        head=head->next;
-        delete temp;
-        temp=NULLpointer;
-        return;
-    }
-    PQ_Node<PQ_DT2>*prev=temp;
-        while(temp->next!=NULLpointer&&temp->next->priority>=temp->priority)
+        PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val, priority);
+        if (head == NULLpointer || head->priority < NN->priority)
         {
-            
-            prev=temp;
-            temp=temp->next;
+            NN->next = head;
+            head = NN;
+        }
+        else
+        {
+            PQ_Node<PQ_DT2> *temp = head;
+            while (temp->next != NULLpointer && temp->next->priority >= priority)
+            {
+                temp = temp->next;
+            }
+
+            NN->next = temp->next;
+            temp->next = NN;
+        }
+    }
+    // deletion- max-priority
+    void deletionMAXpriority()
+    {
+
+        if (isEmpty())
+        {
+            cout << "Queue is empty" << endl;
+            return PQ_DT2();
         }
 
-        prev->next=temp->next;
-       
-        delete temp;
-        temp=NULLpointer;
-        
-
-}
-
-
-//peek function- max-priority
-
-PQ_DT2 peekMAXpriority() const
-    {
-        PQ_Node<PQ_DT2>*temp=head;
-        if (temp==NULLpointer)
-    {
-      cout <<"Queue is empty"<<endl;
-        return PQ_DT2();
-    }
-        
-        while(temp->next!=NULLpointer&&temp->next->priority>=temp->priority)
+        PQ_Node<PQ_DT2> *temp = head;
+        if (temp->next == NULLpointer || temp->priority > temp->next->priority)
         {
-            temp=temp->next;
+            head = head->next;
+            delete temp;
+            temp = NULLpointer;
+            return;
         }
-        cout<<"highest priority element is: "<<temp->data<<endl;
+        PQ_Node<PQ_DT2> *prev = temp;
+        while (temp->next != NULLpointer && temp->next->priority >= temp->priority)
+        {
+
+            prev = temp;
+            temp = temp->next;
+        }
+
+        prev->next = temp->next;
+
+        delete temp;
+        temp = NULLpointer;
+    }
+
+    // peek function- max-priority
+    PQ_DT2 peekMAXpriority() const
+    {
+        PQ_Node<PQ_DT2> *temp = head;
+        if (temp == NULLpointer)
+        {
+            cout << "Queue is empty" << endl;
+            return PQ_DT2();
+        }
+
+        while (temp->next != NULLpointer && temp->next->priority >= temp->priority)
+        {
+            temp = temp->next;
+        }
+        cout << "highest priority element is: " << temp->data << endl;
         return temp->data;
     }
 
-    //DISPLAY - max-priority
+    // DISPLAY - max-priority
     void displayMAXpriority()
     {
-        if(isEmpty())
+        if (isEmpty())
         {
-            cout<<"Queue is empty"<<endl;
+            cout << "Queue is empty" << endl;
             return;
-    
         }
-    
-        cout << "Max-Priority Queue: "<<endl;
-        PQ_Node<PQ_DT2>*temp=head;
-        while (temp!=NULLpointer)
-        { 
-            cout<<temp->data<<" (Priority: "<<temp->priority<<") ->";
+
+        cout << "Max-Priority Queue: " << endl;
+        PQ_Node<PQ_DT2> *temp = head;
+        while (temp != NULLpointer)
+        {
+            cout << temp->data << " (Priority: " << temp->priority << ") ->";
             temp = temp->next;
         }
-            
-        cout<<"NULL";
-        
-        
-        
-    }
 
-    //OPERATOR OVERLOADING - max-priority
-    PQ_DT2 operator[](int key) const
-     {
-        PQ_Node<PQ_DT2>* temp=head;
-        int count=0;
-        while(temp != NULLpointer) 
+        cout << "NULL";
+    }
+    // OPERATOR OVERLOADING - max-priority
+    PQ_DT2& operator[](int key) const
+    {
+        PQ_Node<PQ_DT2> *temp = head;
+        int count = 0;
+        while (temp != NULLpointer)
         {
-            if (count==key)
+            if (count == key)
             {
                 return temp->data;
-             }
+            }
             temp = temp->next;
             count++;
         }
-        cout<<"invalid position: " <<key<<endl;
-        return PQ_DT2();
-    }
-    
-//DESTRUCTOR- max-priority
-
-
-~PQ() {
-    while (!isEmpty())
-     {
-        deletionMAXpriority();
-        
+        cout << "invalid position: " << key << endl;
+        return (PQ_DT2());
     }
 
-
+    // DESTRUCTOR- max-priority
+    ~PQ()
+    {
+        while (!isEmpty())
+        {
+            deletionMAXpriority();
+        }
+    }
 };
-
-
 #endif
