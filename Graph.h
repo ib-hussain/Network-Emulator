@@ -10,6 +10,7 @@ struct GraphNode{
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
     // this is a singly linked list of pointers to the other nodes in the graph
 };
+// friend pair 1:
 template <class D_Grphi2 = int>//configure if this type is okay for this project
 struct GPtrsNode{
     int weight;
@@ -104,29 +105,41 @@ public:
         delete tail;
     }
 };
+//friend pair 2:
+template <class D_Grphi5 = int>//configure if this type is okay for this project
 struct LLNode{
-    int data;//make this template later
+    D_Grphi5 data;//make this template later
+    LLNode():data(NULLint), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
+    LLNode(D_Grphi5 datai):data(datai), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
+    ~LLNode(){
+        left = NULLpointer;
+        right = NULLpointer;
+        up = NULLpointer;
+        down = NULLpointer;
+        delete data;
+    }
+    friend class D2LL<D_Grphi5>;
+private:
     LLNode* left;
     LLNode* right;
     LLNode* up;
     LLNode* down;
-    LLNode():data(NULLint), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
-    LLNode(int datai):data(datai), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
 };
+template <class D_Grphi6 = int>//configure if this type is okay for this project
 struct D2LL{
 private:
-    LLNode** o0_0o;
+    LLNode<D_Grphi6>** o0_0o;
     int rows;
     int columns;
 public:
-    2DLL(){
+    D2LL(){
         o0_0o = NULLpointer;
     }
     bool initialise(int rows1, int columns1){
         if(rows1 <= 0 || columns1 <= 0) return false;
         rows = rows1;
         columns = columns1;
-        o0_0o = new LLNode*[rows];
+        o0_0o = new LLNode<D_Grphi6>*[rows];
         for(int i = 0; i < rows; i++){
             o0_0o[i] = new LLNode[columns];
             for(int j = 0; j < columns; j++){
@@ -140,9 +153,9 @@ public:
     }
     bool resize(int rows1, int columns1){
         if(rows1 <= 0 || columns1 <= 0) return false;
-        LLNode** new_o0_0o = new LLNode*[rows1];
+        LLNode<D_Grphi6>** new_o0_0o = new LLNode<D_Grphi6>*[rows1];
         for(int i = 0; i < rows1; i++){
-            new_o0_0o[i] = new LLNode[columns1];
+            new_o0_0o[i] = new LLNode<D_Grphi6>[columns1];
             for(int j = 0; j < columns1; j++){
                 if(i < rows && j < columns){
                     new_o0_0o[i][j] = o0_0o[i][j];
@@ -164,27 +177,27 @@ public:
         columns = columns1;
         return true;
     }
-    LLNode& get(int i, int j){
+    LLNode<D_Grphi6>& get(int i, int j){
         if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
         return o0_0o[i][j];
     }
-    ~LLNode(){
+    ~D2LL(){
         for(int i = 0; i < rows; i++){
             delete[] o0_0o[i];
         }
         delete[] o0_0o;
     }
 };
-template <class D_Grphi4 = int>//configure if this type is okay for this project
+
+template <class D_Grphi4 = int, class Adj_List_type = int>//configure if this type is okay for this project
 struct Graph{
     GraphNode<D_Grphi4>* top;
+    D2LL<Adj_List_type> connection_list;
     int nodes;
-    D2LL connection_list;
     Graph():top(NULLpointer){
+
     }
-    bool insert(int data, int to_which node){
-        top->
-    }
+    
 };
 
 
