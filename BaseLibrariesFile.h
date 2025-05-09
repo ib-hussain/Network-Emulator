@@ -2,7 +2,7 @@
 #define BASELIBRARIESFILE_H
 
 #include <iostream>
-#include <stdexcept> 
+#include <stdexcept>
 // any libraries that need to be added to the project should be included here and they will be included in all other files
 using namespace std;
 #define NULLint 0
@@ -14,15 +14,17 @@ using namespace std;
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
 // and also we need to define all constants here for the project
-const short int latency_queue_forwarding=0;
-unsigned long long int global_ID_declare =  32767;
+const short int latency_queue_forwarding = 0;
+unsigned long long int global_ID_declare = 32767;
 // make macro for reference to pointer type assignement maybe
 
-struct String{
+struct String
+{
 private:
     char *data;
+
 public:
-    String& operator+(const String &other)
+    String &operator+(const String &other)
     {
         int length1 = len();
         int length2 = other.len();
@@ -36,7 +38,8 @@ public:
         data = new_data;
         return *this;
     }
-    String& operator+(char other){
+    String &operator+(char other)
+    {
         int length = len();
         char *new_data = new char[length + 2];
         for (int i = 0; i < length; i++)
@@ -94,7 +97,8 @@ public:
     {
         return data[index];
     }
-    int len() {
+    int len()
+    {
         int length = 0;
         while (data[length] != '\0')
             length++;
@@ -145,22 +149,58 @@ public:
         return result;
     }
 };
-struct Message{
+struct Message
+{
     const long long int ID;
     short int priority;
     const String source_address;
     String destination_address;
     const String payload;
     String path;
-    Message(String src, String dest=NULLstring, String pl, short int p=NULLint):payload(pl), ID(++global_ID_declare), source_address(src), destination_address(dest), priority(p){
-        path = src;}
-    Message& operator+(String &other){
-        path = path+"+"+other;
+    Message(String src, String dest = NULLstring, String pl, short int p = NULLint) : payload(pl), ID(++global_ID_declare), source_address(src), destination_address(dest), priority(p)
+    {
+        path = src;
+    }
+    Message &operator+(String &other)
+    {
+        path = path + ":" + other;
         return *this;
     }
+    ~Message()
+    {
+        // destructor
+        delete source_address;
+        delete destination_address;
+        delete payload;
+        delete path;
+    }
 };
-bool Send_Message(){
+Message *&Send_Message(String filename1)
+{
     // send msg //command
-    return false;
+    // read only one message
+    Message *msg = new Message("source", "destination", "payload", 1);
+    return msg;
 }
+Message *Send_Message_S(String filename1)
+{
+    // send msgs //command
+    // read all messages and send them
+}
+String Print_Path(String start, String end)
+{
+    // print path
+    // take start and end and scan it from the output messsages file and
+    // put it in the path.txt
+    if ()
+    {
+
+        return String(NULLstring);
+    }
+    else
+    {
+        return String("No message found");
+    }
+}
+
 #endif
