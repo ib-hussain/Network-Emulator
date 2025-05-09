@@ -5,6 +5,7 @@ template <class D_Grphi1 = int>//configure if this type is okay for this project
 struct GraphNode{
     D_Grphi1 data;// this can be any datatype we choose to use in the graph
     GPtrs<D_Grphi1> pointers;
+    // dfghjk
     // GraphNode():data(NULLint){}//make proper constreuctor later
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
     // this is a singly linked list of pointers to the other nodes in the graph
