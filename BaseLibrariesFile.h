@@ -22,8 +22,21 @@ struct String
 {
 private:
     char *data;
-
 public:
+    String& operator+(const String &other)
+    {
+        int length1 = len();
+        int length2 = other.len();
+        char *new_data = new char[length1 + length2 + 1];
+        for (int i = 0; i < length1; i++)
+            new_data[i] = data[i];
+        for (int i = 0; i < length2; i++)
+            new_data[length1 + i] = other.data[i];
+        new_data[length1 + length2] = '\0';
+        delete[] data;
+        data = new_data;
+        return *this;
+    }
     String(const char *input = NULLstring)
     {
         int length = 0;
