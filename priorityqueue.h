@@ -166,7 +166,7 @@ public:
             temp = temp->next;
         }
 
-        cout << "NULL";
+        cout << "NULL"<<endl;
     }
     // OPERATOR OVERLOADING - max-priority
     PQ_Node<PQ_DT2>& operator[](int key) const
