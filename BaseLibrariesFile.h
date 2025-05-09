@@ -15,11 +15,10 @@ using namespace std;
 #define NULLpointer nullptr
 // and also we need to define all constants here for the project
 const short int latency_queue_forwarding=0;
-
+unsigned long long int global_ID_declare =  32767;
 // make macro for reference to pointer type assignement maybe
 
-struct String
-{
+struct String{
 private:
     char *data;
 public:
@@ -32,7 +31,18 @@ public:
             new_data[i] = data[i];
         for (int i = 0; i < length2; i++)
             new_data[length1 + i] = other.data[i];
-        new_data[length1 + length2] = '\0';
+        new_data[length1 + length2] = NULLchar;
+        delete[] data;
+        data = new_data;
+        return *this;
+    }
+    String& operator+(char other){
+        int length = len();
+        char *new_data = new char[length + 2];
+        for (int i = 0; i < length; i++)
+            new_data[i] = data[i];
+        new_data[length] = other;
+        new_data[length + 1] = NULLchar;
         delete[] data;
         data = new_data;
         return *this;
@@ -135,5 +145,22 @@ public:
         return result;
     }
 };
-
+struct Message{
+    const long long int ID;
+    short int priority;
+    const String source_address;
+    String destination_address;
+    const String payload;
+    String path;
+    Message(String src, String dest=NULLstring, String pl, short int p=NULLint):payload(pl), ID(++global_ID_declare), source_address(src), destination_address(dest), priority(p){
+        path = src;}
+    Message& operator+(String &other){
+        path = path+"+"+other;
+        return *this;
+    }
+};
+bool Send_Message(){
+    // send msg //command
+    return false;
+}
 #endif
