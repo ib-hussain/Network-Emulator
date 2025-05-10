@@ -21,8 +21,66 @@ struct String
 {
 private:
     char *data;
-
 public:
+    String(const char *input = NULLstring)
+    {
+        int length = 0;
+        while (input[length] != '\0')
+            length++;
+        data = new char[length + 1];
+        for (int i = 0; i < length; i++)
+            data[i] = input[i];
+        data[length] = '\0';
+    }
+    String(const String &other)
+    {
+        int length = other.len();
+        data = new char[length + 1];
+        for (int i = 0; i < length; i++)
+            data[i] = other.data[i];
+        data[length] = '\0';
+    }
+    String(string& other){
+        int length = other.length();
+        data = new char[length + 1];
+        for (int i = 0; i < length; i++)
+            data[i] = other[i];
+        data[length] = '\0';
+    }
+    String &operator=(const String &other)
+    {
+        if (this != &other)
+        {
+            delete[] data;
+            int length = other.len();
+            data = new char[length + 1];
+            for (int i = 0; i < length; i++)
+                data[i] = other.data[i];
+            data[length] = '\0';
+        }
+        return *this;
+    }
+    String& operator=(const char *other)
+    {
+        delete[] data;
+        int length = 0;
+        while (other[length] != '\0')
+            length++;
+        data = new char[length + 1];
+        for (int i = 0; i < length; i++)
+            data[i] = other[i];
+        data[length] = '\0';
+        return *this;
+    }
+    String& operator=(string& other){
+        delete[] data;
+        int length = other.length();
+        data = new char[length + 1];
+        for (int i = 0; i < length; i++)
+            data[i] = other[i];
+        data[length] = '\0';
+        return *this;
+    }
     String &operator+(const String &other)
     {
         int length1 = len();
@@ -49,35 +107,87 @@ public:
         data = new_data;
         return *this;
     }
-    String(const char *input = NULLstring)
+    String& operator+(const char *other)
     {
-        int length = 0;
-        while (input[length] != '\0')
-            length++;
-        data = new char[length + 1];
-        for (int i = 0; i < length; i++)
-            data[i] = input[i];
-        data[length] = '\0';
+        int length1 = len();
+        int length2 = 0;
+        while (other[length2] != '\0')
+            length2++;
+        char *new_data = new char[length1 + length2 + 1];
+        for (int i = 0; i < length1; i++)
+            new_data[i] = data[i];
+        for (int i = 0; i < length2; i++)
+            new_data[length1 + i] = other[i];
+        new_data[length1 + length2] = NULLchar;
+        delete[] data;
+        data = new_data;
+        return *this;
     }
-    String(const String &other)
+    String &operator+(string& other)
     {
-        int length = other.len();
-        data = new char[length + 1];
-        for (int i = 0; i < length; i++)
-            data[i] = other.data[i];
-        data[length] = '\0';
+        int length1 = len();
+        int length2 = other.length();
+        char *new_data = new char[length1 + length2 + 1];
+        for (int i = 0; i < length1; i++)
+            new_data[i] = data[i];
+        for (int i = 0; i < length2; i++)
+            new_data[length1 + i] = other[i];
+        new_data[length1 + length2] = NULLchar;
+        delete[] data;
+        data = new_data;
+        return *this;
     }
-    String &operator=(const String &other)
+    String &operator+=(const String &other)
     {
-        if (this != &other)
-        {
-            delete[] data;
-            int length = other.len();
-            data = new char[length + 1];
-            for (int i = 0; i < length; i++)
-                data[i] = other.data[i];
-            data[length] = '\0';
+        return *this + other;
+    }
+    String &operator+=(char other)
+    {
+        return *this + other;
+    }
+    String &operator+=(const char *other)
+    {
+        return *this + other;
+    }
+    String &operator+=(string& other)
+    {
+        return *this + other;
+    }
+    bool operator==(const String &other)
+    {
+        int length1 = len();
+        int length2 = other.len();
+        if (length1 != length2)
+            return false;
+        for (int i = 0; i < length1; i++)
+            if (data[i] != other.data[i])
+                return false;
+        return true;
+    }
+    bool operator!=(const String &other)
+    {
+        while(data[a] != NULLchar){
+            if(data[a] == other.data[a]){
+                return false;
+            }
+            a++;
         }
+        return true;
+    }
+    operator string()
+    {
+        string result = NULLstring;
+        int length = len();
+        for (int i = 0; i < length; i++)
+            result += data[i];
+        return result;
+    }
+    operator char *()
+    {
+        return data;
+    }
+    operator String()
+    {
         return *this;
     }
     ~String()

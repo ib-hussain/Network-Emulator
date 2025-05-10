@@ -195,9 +195,27 @@ struct Graph{
     D2LL<Adj_List_type> connection_list;
     int nodes;
     Graph():top(NULLpointer){
-
+        nodes=-1;
+        if(read_whole_csv()){
+            make_graph();
+        }
+        else{
+            ~Graph();
+        }
     }
-    
+    bool read_whole_csv(){
+        // read the csv file and fill the connection_list
+        // return true if successful, false otherwise
+        
+        return true;
+    }
+    bool make_graph(){}
+    bool delete_node(){}
+    ~Graph(){
+        
+        
+        delete connection_list;
+    }
 };
 
 
