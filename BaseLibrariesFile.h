@@ -18,6 +18,7 @@ using namespace std;
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
+
 // and also we need to define all constants here for the project
 const short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
