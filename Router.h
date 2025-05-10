@@ -4,15 +4,14 @@
 #include "PriorityQueue.h"
 #include "RoutingTable.h"
 
-#include "SinglyLinkedList.h"
 #include "SplayTree.h"
-template <class incoming = int, class outgoing = int, class rt_dtype1 = int>
+template <class incoming = Message, class outgoing = Message, class rt_dtype1 = int>
 struct Router{
+    const long long int ID;
     PQ<incoming> incoming_Queue;
     Queue<outgoing> outgoing_Queue;
-    RoutT<rt_dtype1> routing_table;
+    RoutT<rt_dtype1> routing_table;// configure default datatype
     const String name; 
-    const long long int ID;
     Router(const String& namei = NULLstring):name(namei), ID(++global_ID_declare){}
     
 };

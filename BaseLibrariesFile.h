@@ -3,18 +3,18 @@
 // LIBRARIES:
 #include <iostream>
 #include <stdexcept>
-#include <fstream>
-#include <string>
-#include <cstring>
-#include <vector>
 #include <sstream>
+#include <vector>
+#include <ctime>
 #include <chrono>
 #include <thread>
+#include <string>
+#include <fstream>
+#include <cstring>
 #include <algorithm>
-#include <ctime>
 using namespace std;
 #define NULLint 0
-#define FULLint -32767
+#define FULLint -32765
 #define NULLchar '\0'
 #define NULLstring ""
 #define NULLbool NULL
@@ -258,8 +258,7 @@ public:
         return result;
     }
 };
-struct Message
-{
+struct Message{
     const long long int ID;
     short int priority;
     const String source_address;
@@ -267,14 +266,18 @@ struct Message
     const String payload;
     String path;
     Message(String src, String dest = NULLstring, String pl, short int p = NULLint) : payload(pl), ID(++global_ID_declare), source_address(src), destination_address(dest), priority(p)
-    {
-        path = src;
-    }
-    Message& operator++(String &other)
-    {
+    {path = src;}
+    Message& operator++(String &other){
         path = path + ":" + other;
         return *this;
     }
+    Message(Message &other): ID(other.ID), priority(other.priority), source_address(other.source_address), destination_address(other.destination_address), payload(other.payload), path(other.path){}
+    Message(Message &other, bool kill=false): ID(other.ID), priority(other.priority), source_address(other.source_address), destination_address(other.destination_address), payload(other.payload), path(other.path){
+        if(kill){
+            other.~Message();
+        }
+    }
+    Message(Message* other): ID(other->ID), priority(other->priority), source_address(other->source_address), destination_address(other->destination_address), payload(other->payload), path(other->path){}
     ~Message(){
         // destructor
         delete source_address;
