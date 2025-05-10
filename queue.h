@@ -19,24 +19,19 @@ template <typename T = int>
 struct Q_Node{//node desgigned for queue
     // node class that will hold the data and the next pointer
     T data;
-    long long int ID;
-    Q_Node(T value){
+    const long long int ID;
+    Q_Node(T value): ID(++global_ID_declare){
         this->data = value;
         this->next = NULLpointer;
-        ID = 1 + enhancer;
-        enhancer++; // ID of the node is set to 1 + enhancer
     }
     friend class Queue<T>;
     ~Q_Node(){// default constructor
-        delete this->data ;
+        delete data ;
         this->next = NULLpointer;
     }
 private:
     Q_Node* next;
-    static long long int enhancer;
 };
-long long int Q_Node<T>::enhancer = (-1 * FULLint); // static variable to hold the ID of the node
-
 template <typename T1 = int>
 struct Queue{
 private:
