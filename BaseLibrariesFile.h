@@ -22,7 +22,7 @@ using namespace std;
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
 // GLOBAL CONSTANTS/VARIABLES:
-const unsigned short int latency_queue_forwarding = 1000;
+const unsigned short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
 
 struct String{
