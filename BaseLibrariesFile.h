@@ -276,7 +276,7 @@ struct Message
     {
         path = src;
     }
-    Message &operator+(String &other)
+    Message& operator++(String &other)
     {
         path = path + ":" + other;
         return *this;
