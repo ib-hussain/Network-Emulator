@@ -1,68 +1,46 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 #include "BaseLibrariesFile.h"
-template <class PQ_DT1 = int>
-class PQ_Node{
-// private:
-    PQ_DT1 data;
+template <class PQ_DT1 = Message>
+struct PQ_Node{
+private:
     PQ_Node *next;
-    short int priority;
 public:
-    PQ_Node(PQ_DT1 value, short int p){
+    PQ_DT1 data;
+    PQ_Node(PQ_DT1 value){
         data = value;
         next = NULLpointer;
-        priority = p;}
+    }
     PQ_Node(){
         data = PQ_DT1();
         next = NULLpointer;
-        priority = 0;}
-    PQ_Node(PQ_Node<PQ_DT1>& copy)
-    {
-        data=copy.data;
-        priority=copy.priority;
-        if(copy.next!=NULLpointer)
-        {
-            next = new PQ_Node<PQ_DT1>(*copy.next);
-        }
-    else
-        {next = NULLpointer;}
     }
-    PQ_Node(PQ_Node<PQ_DT1>* copy)
-    {
-        if(copy==NULLpointer)
-    {
-        next=NULLpointer;
-        return;
-    }
+    PQ_Node(PQ_Node<PQ_DT1>& copy){
         data=copy.data;
-        priority=copy.priority;
-        if(copy->next!=NULLpointer)
-        {
-            next = new PQ_Node<PQ_DT1>(copy->next);
+    }
+    PQ_Node(PQ_Node<PQ_DT1>* copy){
+        if(!copy){
+            return;
         }
-    else
-        {next = NULLpointer;}
-
+        data=copy.data;
     }
     PQ_Node<PQ_DT1>& operator=(const PQ_Node<PQ_DT1>&op){
-      if (this!=&op){
-        data=op.data;
-        priority=op.priority;
-        }
+        if (this!=&op){
+            data=op.data;
+        }   
         return *this;
     }
     PQ_Node<PQ_DT1>& operator=(const PQ_Node<PQ_DT1>* op){
         if (this!=op){
             data=op->data;
-            priority=op->priority;
-            }
-            return *this;
+        }
+        return *this;
     }
 };
-template <class PQ_DT2 = int>
-class PQ{
+template <class PQ_DT2 = Message>
+struct PQ{
 public:
-    PQ_Node<PQ_DT2> *head ;
+    PQ_Node<PQ_DT2>* head;
     PQ(){head = NULLpointer;}
     bool isEmpty(){return head == NULLpointer;}
     // max-priority queue

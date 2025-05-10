@@ -384,9 +384,24 @@ struct Graph{
     }
     bool make_graph(){
         int r=0, c=0;
-        
+        for(;r;r++){
+            for(;c;c++){
+
+            }
+        }
     }
-    bool add_node(){}
+    bool add_node(){
+        if(!top){
+            D_Grphi4* datai = new D_Grphi4();
+            top = new GraphNode<D_Grphi4>();
+            nodes++;
+            return true;
+        }
+        else{
+
+        }
+        return false;
+    }
     bool delete_node(){}
     ~Graph(){
         finish_graph();
