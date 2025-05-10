@@ -206,7 +206,7 @@ struct Graph{
     bool read_whole_csv(){
         // read the csv file and fill the connection_list
         // return true if successful, false otherwise
-        
+
         return true;
     }
     bool make_graph(){}
