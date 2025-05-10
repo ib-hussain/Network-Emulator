@@ -21,7 +21,7 @@ using namespace std;
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
-// CONSTANTS:
+// GLOBAL CONSTANTS/VARIABLES:
 const unsigned short int latency_queue_forwarding = 1000;
 unsigned long long int global_ID_declare = 32767;
 
