@@ -19,6 +19,11 @@ struct GPtrsNode{
     GPtrsNode(int weighti, GraphNode<D_Grphi2>* nexti): weight(weighti), connection(nexti) , nextnode(NULLpointer) {}
     //xfcvgh
     friend class GPtrs<D_Grphi2>;
+    ~GPtrsNode(){
+        weight = NULLint;
+        connection= NULLpointer ;
+        nextnode = NULLpointer;
+    }
     int& operator*(){
         return weight;
     }
@@ -250,11 +255,6 @@ public:
         delete[] o0_0o;
     }
 };
-
-
-
-
-
 template <class D_Grphi4 = Router, class Adj_List_type = int>
 struct Graph{
     GraphNode<D_Grphi4>* top;
