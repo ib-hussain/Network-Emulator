@@ -8,6 +8,10 @@
 #include <cstring>
 #include <vector>
 #include <sstream>
+#include <chrono>
+#include <thread>
+#include <algorithm>
+#include <ctime>
 // any libraries that need to be added to the project should be included here and they will be included in all other files
 using namespace std;
 #define NULLint 0
@@ -20,11 +24,10 @@ using namespace std;
 #define NULLpointer nullptr
 
 // and also we need to define all constants here for the project
-const short int latency_queue_forwarding = 0;
+const unsigned short int latency_queue_forwarding = 1000;
 unsigned long long int global_ID_declare = 32767;
 // make macro for reference to pointer type assignement maybe
-struct String
-{
+struct String{
 private:
     mutable char *data;
 public:
@@ -200,17 +203,10 @@ public:
     {
         delete[] data;
     }
-    char &operator[](int index)
-    {
-        if (index < 0)
-            index = 0; // handle negative index
-        if (index >= len())
-            index = len() - 1; // handle out of bounds
-        return data[index];    // no bounds checking
-    }
-    const char &operator[](int index)
-    {
-        return data[index];
+    char &operator[](int index){
+        if (index < 0)index = 0; // handle negative index
+        if (index >= len())index = len() - 1; // handle out of bounds
+        return data[index];    
     }
     int len()
     {

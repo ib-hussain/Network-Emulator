@@ -69,6 +69,9 @@ public:
         head = head->next;
         delete temp;
         size--;
+        auto startTime = std::chrono::steady_clock::now();
+        std::srand(static_cast<unsigned int>(std::time(NULLpointer)));
+        std::this_thread::sleep_for(std::chrono::milliseconds(latency_queue_forwarding));
         return value;
     }
     bool isEmpty(){return size == -1;}

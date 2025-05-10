@@ -3,12 +3,15 @@
 #include "Router.h"
 template <class D_Grphi1 = Router>
 struct GraphNode{
-    D_Grphi1 data;// this can be any datatype we choose to use in the graph
+    D_Grphi1 data;// this will have the name and the id itself
     GPtrs<D_Grphi1> pointers;
-    // dfghjk
-    // GraphNode():data(NULLint){}//make proper constreuctor later
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
-    // this is a singly linked list of pointers to the other nodes in the graph
+    // this is a singly circular linked list of pointers to the other nodes in the graph
+    GraphNode(D_Grphi1 datai):data(datai), pointers(){}// this is the only constructor
+    ~GraphNode(){
+        delete data;
+        delete pointers;
+    }
 };
 // friend pair 1:
 template <class D_Grphi2 = Router>
@@ -111,7 +114,7 @@ public:
     }
 };
 //friend pair 2:
-template <class D_Grphi5 = int>
+template <class D_Grphi5 = String>
 struct LLNode{
     D_Grphi5 data;//make this template later
     LLNode():data(NULLint-1), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
@@ -138,13 +141,14 @@ private:
     LLNode* up;
     LLNode* down;
 };
-template <class D_Grphi6 = int>
+template <class D_Grphi6 = String>
 struct D2LL{
 private:
     LLNode<D_Grphi6>** o0_0o;
     int rows;
     int columns;
 public:
+    friend class Graph<D_Grphi6>;
     friend ostream& operator<<(ostream& os, const D2LL<D_Grphi6>& obj){
         for(int i = 0; i < obj.rows; i++){
             for(int j = 0; j < obj.columns; j++){
@@ -166,13 +170,13 @@ public:
         vector<vector<string>> temp_data;
         string line;
         // Read and skip the first row (column headers)
-        getline(file, line); 
+        // getline(file, line); 
         while (getline(file, line)) {
             stringstream ss(line);
             string cell;
             vector<string> row;
             // Skip the first column (row header)
-            getline(ss, cell, ',');
+            // getline(ss, cell, ',');
             // Read remaining cells
             while (getline(ss, cell, ',')) {
                 row.push_back(cell);
@@ -190,7 +194,8 @@ public:
         initialise(n, n);
         for(int i = 0; i < n; i++){
                 for(int j = 0; j < n; j++){
-                    get(i,j) =((data[i][j]=="?")?(-1):(stoi(data[i][j])));
+                    // get(i,j) =((data[i][j]=="?")?(-1):(stoi(data[i][j])));
+                    get(i,j) =data[i][j];
                 }
             }
         for(int i = 0; i < n; i++){
@@ -248,6 +253,10 @@ public:
         if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
         return o0_0o[i][j];
     }
+    D_Grphi6& get(int i, int j){
+        if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
+        return (o0_0o[i][j].data);
+    }
     ~D2LL(){
         for(int i = 0; i < rows; i++){
             delete[] o0_0o[i];
@@ -266,16 +275,36 @@ struct Graph{
             make_graph();
         }
         else{
-            ~Graph();
+            finish_graph();
         }
     }
-    bool make_graph(){}
+    bool make_graph(){
+        int r=0, c=0;
+        while(r<connection_list.rows){
+            if((connection_list.get(r, c))[0]=='R'){
+                
+            }
+            else{
+                r++;
+            }
+        }
+    }
     bool add_node(){}
     bool delete_node(){}
     ~Graph(){
         finish_graph();
+        delete connection_list;
+        (!top)?() : delete top;
     }
-    void finish_graph(){}
+    void finish_graph(){
+        if(!top) return;
+    }
+    GraphNode<D_Grphi4>& operator[](long long int IDi){
+        static GraphNode<D_Grphi4> NullNode7;
+        if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
+        
+
+    }
 };
 
 

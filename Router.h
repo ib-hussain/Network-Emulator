@@ -13,5 +13,7 @@ struct Router{
     RoutT<rt_dtype1> routing_table;
     const String name; 
     const long long int ID;
+    Router(const String& namei = NULLstring):name(namei), ID(++global_ID_declare){}
+    
 };
 #endif
