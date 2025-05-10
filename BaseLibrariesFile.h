@@ -3,6 +3,11 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <sstream>
 // any libraries that need to be added to the project should be included here and they will be included in all other files
 using namespace std;
 #define NULLint 0
