@@ -46,7 +46,7 @@ public:
     PQ():head(NULLpointer), nodes(-1){}
     bool isEmpty(){return head == NULLpointer;}
     // max-priority queue // insertion- max-priority
-    bool insertionMAXpriority(PQ_DT2& val){
+    bool Enqueue(PQ_DT2& val){// insertionMAXpriority
         // bool tells if the data was inserted or not
     }
     // deletion- max-priority
