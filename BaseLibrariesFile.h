@@ -25,7 +25,7 @@ unsigned long long int global_ID_declare = 32767;
 struct String
 {
 private:
-    char *data;
+    mutable char *data;
 public:
     String(const char *input = NULLstring)
     {
@@ -280,8 +280,7 @@ struct Message
         path = path + ":" + other;
         return *this;
     }
-    ~Message()
-    {
+    ~Message(){
         // destructor
         delete source_address;
         delete destination_address;

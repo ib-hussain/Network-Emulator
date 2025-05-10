@@ -11,6 +11,7 @@ struct Router{
     PQ<incoming> incoming_Queue;
     Queue<outgoing> outgoing_Queue;
     RoutT<rt_dtype1> routing_table;
+    const String name; 
     const long long int ID;
 };
 #endif
