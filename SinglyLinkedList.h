@@ -6,9 +6,14 @@ template <class idk=Message>
 struct box_LL{
     idk data;
     box_LL():data(), next(NULLpointer), prev(NULLpointer){}
-    box_LL(idk datai):next(NULLpointer), prev(NULLpointer), data(datai, true){}
+    box_LL(idk& datai):next(NULLpointer), prev(NULLpointer), data(datai, true){}
     box_LL(box_LL* other):data(other->data), next(NULLpointer), prev(NULLpointer){}
     box_LL(const box_LL& other):data(other.data), next(NULLpointer), prev(NULLpointer){}
+    box_LL(box_LL& other, bool kill=false):data(other.data), next(NULLpointer), prev(NULLpointer){
+        if(kill){
+            other.~box_LL();
+        }
+    }
     box_LL& operator=(const box_LL& other){
         if(this != &other){
             data = other.data;

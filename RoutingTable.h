@@ -1,46 +1,45 @@
 #ifndef ROUTINGTABLE_H
 #define ROUTINGTABLE_H
 #include "SinglyLinkedList.h"
-template <class rt_dtype10 = int>
+//perfected------------------------------------------------------------------------
 struct Entry{
     String destination;
     String next_router;// outgoing queue direction
     Entry(const String& dest = NULLstring, const String& next = NULLstring):destination(dest), next_router(next){}
-    friend ostream& operator<<(ostream& out, const Entry<rt_dtype10>& entry){
+    friend ostream& operator<<(ostream& out, const Entry& entry){
         out <<entry.destination << "," << entry.next_router;
         return out;
     }
-    friend istream& operator>>(istream& in, Entry<rt_dtype10>& entry){
+    friend istream& operator>>(istream& in, Entry& entry){
         in >> entry.destination;
         in >> entry.next_router;
         return in;
     }
-    Entry(const Entry<rt_dtype10>& other):destination(other.destination), next_router(other.next_router){}
-    Entry& operator=(const Entry<rt_dtype10>& other){
+    Entry(const Entry& other):destination(other.destination), next_router(other.next_router){}
+    Entry& operator=(const Entry& other){
         if(this != &other){
             destination = other.destination;
             next_router = other.next_router;
         }
         return *this;
     }
-    Entry(Entry<rt_dtype10>& other, bool kill=false):destination(other.destination), next_router(other.next_router){
+    Entry(Entry& other, bool kill=false):destination(other.destination), next_router(other.next_router){
         if(kill){other.~Entry();}
     }
-    Entry(Entry<rt_dtype10>* other):destination(other->destination), next_router(other->next_router){}
+    Entry(Entry* other):destination(other->destination), next_router(other->next_router){}
     ~Entry(){
         delete destination;
         delete next_router;
     }
 };
-template <class rt_dtype11 = int>
 struct RoutT{
-    Linear_List<Entry<rt_dtype11>> tabular;
+    Linear_List<Entry> tabular;
     RoutT(){}
-    bool add(const String& dest, const String& next){
+    bool add(const String& dest, const String& next){//add M4,R1
         Entry<rt_dtype11> new_entry(dest, next);
         return tabular.insert(new_entry);
     }
-    bool remove(const String& dest, const String& next){
+    bool remove(const String& dest, const String& next){// remove M4,R2
         for(int d=0;d<=tabular.nodes;d++){
             if((tabular[d].destination == dest) && (tabular[d].next_router == next)){
                 return tabular.delete_entry(tabular[d]);
@@ -48,7 +47,7 @@ struct RoutT{
         }
         return false;
     }
-    bool add_csv(const String& file_to_read = NULLstring){// use for string
+    bool add_csv(const String& file_to_read = NULLstring){// add rt_1.csv
         if(file_name==NULLstring)return false;
         ifstream file(file_to_read);
         if (!file.is_open()) {
@@ -90,7 +89,7 @@ struct RoutT{
         delete[] data;
         return true;
     }
-    bool remove_csv(const String& file_to_read = NULLstring){// use for string
+    bool remove_csv(const String& file_to_read = NULLstring){// remove rt_2.csv
         if(file_name==NULLstring)return false;
         ifstream file(file_to_read);
         if (!file.is_open()) {

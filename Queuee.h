@@ -1,13 +1,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include "BaseLibrariesFile.h" 
+//perfected------------------------------------------------------------------------
 // making a queue class that will be used in the graph class to hold the nodes that are being visited in the graph
 // so that we can use any data type in the queue
 template <typename T = Message>
 struct Q_Node{//node desgigned for queue
     T data;
-    Q_Node(T value){
-        this->data = value;
+    Q_Node(T& value): data(value, true){
         this->next = NULLpointer;
     }
     // make default constructor once the datatype for this queue is configured
@@ -24,8 +24,8 @@ struct Queue{
 private:
     Q_Node<T1> *head;
     Q_Node<T1> *tail;
-    int nodes;
 public:
+    int nodes;
     Queue(){
         head = NULLpointer;
         tail = NULLpointer;
@@ -49,8 +49,7 @@ public:
     T1& Dequeue(){// Remove redundant check as it duplicates the previous condition
         // Remove redundant check as it duplicates the previous condition
         static T1 NullNode4;
-        if (head == NULLpointer) return NullNode4; // base case if
-        // queue is empty
+        if (head == NULLpointer) return NullNode4; // base case if queue is empty
         NullNode4 = head->data;
         Q_Node<T1> *temp = head;
         head = head->next;
