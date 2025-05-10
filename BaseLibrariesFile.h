@@ -1,6 +1,6 @@
 #ifndef BASELIBRARIESFILE_H
 #define BASELIBRARIESFILE_H
-
+// LIBRARIES:
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
@@ -12,7 +12,6 @@
 #include <thread>
 #include <algorithm>
 #include <ctime>
-// any libraries that need to be added to the project should be included here and they will be included in all other files
 using namespace std;
 #define NULLint 0
 #define FULLint -32767
@@ -22,11 +21,10 @@ using namespace std;
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
-
-// and also we need to define all constants here for the project
+// CONSTANTS:
 const unsigned short int latency_queue_forwarding = 1000;
 unsigned long long int global_ID_declare = 32767;
-// make macro for reference to pointer type assignement maybe
+
 struct String{
 private:
     mutable char *data;

@@ -281,8 +281,8 @@ struct Graph{
     bool make_graph(){
         int r=0, c=0;
         while(r<connection_list.rows){
-            if((connection_list.get(r, c))[0]=='R'){
-                
+            if(char((connection_list.get(r, 0))[0])=='R'){
+
             }
             else{
                 r++;
