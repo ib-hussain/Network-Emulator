@@ -24,7 +24,8 @@ using namespace std;
 // GLOBAL CONSTANTS/VARIABLES:
 const unsigned short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
-
+const bool debug = true;
+// GLOBAL FUNCTIONS:
 struct String{
 private:
     mutable char *data;

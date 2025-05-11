@@ -1,6 +1,5 @@
 #ifndef ROUTER_H
 #define ROUTER_H
-#include "Queue.h"
 #include "PriorityQueue.h"
 #include "RoutingTable.h"
 

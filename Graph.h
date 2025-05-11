@@ -93,14 +93,14 @@ public:
         return (*current);
     }
     GPtrsNode<D_Grphi3>& operator[](GraphNode<D_Grphi3>* node){
-        static GPtrsNode<D_Grphi3> NullNode;
-        if(ifempty()) return NullNode;
+        static GPtrsNode<D_Grphi3> NullNode1;
+        if(ifempty()) return NullNode1;
         GPtrsNode<D_Grphi3>* current = tail->nextnode;
         do{
             if(current->connection == node) return (*current);
             current = current->nextnode;
         }while(current != tail->nextnode);
-        return NullNode;
+        return NullNode1;
     }
     ~GPtrs(){
         GPtrsNode<D_Grphi3>* current = tail->nextnode;
@@ -145,13 +145,11 @@ template <class D_Grphi6 = String>
 struct D2LL{
 private:
     LLNode<D_Grphi6>** o0_0o;
-    int rows;
-    int columns;
     bool ExtractRouterMatrix(const string& input_file = "network.csv", const string& output_file = "routers.csv") {
         ifstream file(input_file);
         ofstream out(output_file);
         if (!file.is_open()) {
-            // cout << "Could not open input file." << endl;
+            if(debug)cout << "Could not open input file." << endl;
             return false;
         }
         vector<vector<string>> all_data;
@@ -183,7 +181,7 @@ private:
             }
         }
         if (row_start == -1 || col_start == -1) {
-            // cout << "Router labels not found in rows/columns." << endl;
+            if(debug)cout << "Router labels not found in rows/columns." << endl;
             return false;
         }
         // Write header row with empty (0,0) cell
@@ -202,10 +200,70 @@ private:
         }
         file.close();
         out.close();
-        // cout << "Router matrix written to " << output_file << " with empty (0,0) cell." << endl;
+        if(debug)cout << "Router matrix written to " << output_file << " with empty (0,0) cell." << endl;
+        return true;
+    }
+    bool ExtractMachineMatrix(const string& input_file = "network.csv", const string& output_file = "machines.csv") {
+        ifstream file(input_file);
+        ofstream out(output_file);
+        if (!file.is_open()) {
+            if(debug)cout << "Could not open input file." << endl;
+            return false;
+        }
+        vector<vector<string>> all_data;
+        string line;
+        // Read all rows into memory
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string cell;
+            vector<string> row;
+            while (getline(ss, cell, ',')) {
+                row.push_back(cell);
+            }
+            all_data.push_back(row);
+        }
+        // Identify start index for rows and columns with label starting with 'R'
+        int row_start = -1, col_start = -1;
+        // Find first 'R' row
+        for (int i = 1; i < all_data.size(); ++i) {
+            if (!all_data[i][0].empty() && all_data[i][0][0] == 'M') {
+                row_start = i;
+                break;
+            }
+        }
+        // Find first 'R' column
+        for (int j = 1; j < all_data[0].size(); ++j) {
+            if (!all_data[0][j].empty() && all_data[0][j][0] == 'M') {
+                col_start = j;
+                break;
+            }
+        }
+        if (row_start == -1 || col_start == -1) {
+            if(debug)cout << "Router labels not found in rows/columns." << endl;
+            return false;
+        }
+        // Write header row with empty (0,0) cell
+        out << ""; // top-left cell left empty
+        for (int j = col_start; j < all_data[0].size(); ++j) {
+            out << "," << all_data[0][j];
+        }
+        out << endl;
+        // Write remaining router matrix with row labels
+        for (int i = row_start; i < all_data.size(); ++i) {
+            out << all_data[i][0]; // row label
+            for (int j = col_start; j < all_data[i].size(); ++j) {
+                out << "," << all_data[i][j];
+            }
+            out << endl;
+        }
+        file.close();
+        out.close();
+        if(debug)cout << "Machine matrix written to " << output_file << " with empty (0,0) cell." << endl;
         return true;
     }
 public:
+    int rows;
+    int columns;
     friend class Graph<D_Grphi6>;
     friend ostream& operator<<(ostream& os, const D2LL<D_Grphi6>& obj){
         for(int i = 0; i < obj.rows; i++){
@@ -222,9 +280,11 @@ public:
         const string file_to_read = (file_name == NULLstring) ? "network.csv" : csv_file_name;
         ifstream file(file_to_read);
         if (!file.is_open()) {
-            // cout << "Failed to open file." << endl;
+            if(debug)cout << "Failed to open file." << endl;
             return false;
         }
+        if(!ExtractRouterMatrix())return false;
+        if(!ExtractMachineMatrix())return false;
         vector<vector<string>> temp_data;
         string line;
         // Read and skip the first row (column headers)
@@ -263,11 +323,10 @@ public:
         return true;
     }
     bool read_almost_all_csv(const String& file_name = NULLstring){// use for int
-        if(!ExtractRouterMatrix())return false;
         const string file_to_read = (file_name == NULLstring) ? "routers.csv" : csv_file_name;
         ifstream file(file_to_read);
         if (!file.is_open()) {
-            // cout << "Failed to open file." << endl;
+            if(debug)cout << "Failed to open file." << endl;
             return false;
         }
         vector<vector<string>> temp_data;
@@ -406,7 +465,8 @@ struct Graph{
     ~Graph(){
         finish_graph();
         delete all_connections;
-        (!top)?() : delete top;
+        (!top)? return : if(debug)cout<<"Top node isnt deleted still"<<endl;
+        delete top;
     }
     void finish_graph(){
         if(!top) return;

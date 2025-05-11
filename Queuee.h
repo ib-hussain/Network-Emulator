@@ -46,7 +46,7 @@ public:
         }
         return false;
     }
-    T1& Dequeue(){// Remove redundant check as it duplicates the previous condition
+    T1& Dequeue(bool waiting=false){// Remove redundant check as it duplicates the previous condition
         // Remove redundant check as it duplicates the previous condition
         static T1 NullNode4;
         if (head == NULLpointer) return NullNode4; // base case if queue is empty
@@ -55,10 +55,13 @@ public:
         head = head->next;
         delete temp;
         nodes--;
+        if(waiting){wait();}
+        return NullNode4;
+    }
+    void wait(){
         auto startTime = std::chrono::steady_clock::now();
         std::srand(static_cast<unsigned int>(std::time(NULLpointer)));
         std::this_thread::sleep_for(std::chrono::milliseconds(latency_queue_forwarding));
-        return NullNode4;
     }
     bool isEmpty(){return nodes == -1;}
     // friend ostream &operator<<(ostream &os, const Queue<T> &queue){// not a necessary function
