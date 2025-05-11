@@ -58,11 +58,6 @@ public:
         if(waiting){wait();}
         return NullNode4;
     }
-    void wait(){
-        auto startTime = std::chrono::steady_clock::now();
-        std::srand(static_cast<unsigned int>(std::time(NULLpointer)));
-        std::this_thread::sleep_for(std::chrono::milliseconds(latency_queue_forwarding));
-    }
     bool isEmpty(){return nodes == -1;}
     // friend ostream &operator<<(ostream &os, const Queue<T> &queue){// not a necessary function
     //     Q_Node<T1> *current = Queue.head;

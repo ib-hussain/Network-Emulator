@@ -4,14 +4,15 @@
 #include "RoutingTable.h"
 
 #include "SplayTree.h"
-template <class incoming = Message, class outgoing = Message>
+template <class incoming0 = Message, class outgoing0 = Message>
 struct Router{
     const long long int ID;
-    PQ<incoming> incoming_Queue;
-    Queue<outgoing> outgoing_Queue;
+    const String name;
+    PQ<incoming0> incoming_Queue;
+    Queue<outgoing0> outgoing_Queue;
     RoutT routing_table;
-    const String name; 
-    Router(const String& namei = NULLstring):name(namei), ID(++global_ID_declare){}
-    
+    STree<Machine> machine_tree; 
+    Router(const String& namei = NULLstring):name(namei), ID(++global_ID_declare), incoming_Que {}
+    Router():name("Default"), ID(NULLint){}
 };
 #endif

@@ -26,6 +26,11 @@ const unsigned short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
 const bool debug = true;
 // GLOBAL FUNCTIONS:
+void wait(){
+    auto startTime = std::chrono::steady_clock::now();
+    std::srand(static_cast<unsigned int>(std::time(NULLpointer)));
+    std::this_thread::sleep_for(std::chrono::milliseconds(latency_queue_forwarding));
+}  
 struct String{
 private:
     mutable char *data;

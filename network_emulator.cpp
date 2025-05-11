@@ -10,6 +10,6 @@ void start_engine(){
     // send msgs //1 type
     // change RT //4 types
     // print path // 3 types has a " to " in between
-    // change egde // 3 types
+    // change egde // 3 types // implement this in graph.h
     //add a menu in this whole function
 }
