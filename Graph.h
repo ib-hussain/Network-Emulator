@@ -1,17 +1,20 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-#include "BaseLibrariesFile.h"
-template <class D_Grphi1 = int>//configure if this type is okay for this project
+#include "Router.h"
+template <class D_Grphi1 = Router>
 struct GraphNode{
-    D_Grphi1 data;// this can be any datatype we choose to use in the graph
+    D_Grphi1 data;// this will have the name and the id itself
     GPtrs<D_Grphi1> pointers;
-    // dfghjk
-    // GraphNode():data(NULLint){}//make proper constreuctor later
     // i am making 1 graph node and making a linked list in it that holds the pointers to the other nodes in the graph
-    // this is a singly linked list of pointers to the other nodes in the graph
+    // this is a singly circular linked list of pointers to the other nodes in the graph
+    GraphNode(D_Grphi1 datai):data(datai), pointers(){}// this is the only constructor
+    ~GraphNode(){
+        delete data;
+        delete pointers;
+    }
 };
 // friend pair 1:
-template <class D_Grphi2 = int>//configure if this type is okay for this project
+template <class D_Grphi2 = Router>
 struct GPtrsNode{
     int weight;
     GraphNode<D_Grphi2>* connection;
@@ -19,6 +22,11 @@ struct GPtrsNode{
     GPtrsNode(int weighti, GraphNode<D_Grphi2>* nexti): weight(weighti), connection(nexti) , nextnode(NULLpointer) {}
     //xfcvgh
     friend class GPtrs<D_Grphi2>;
+    ~GPtrsNode(){
+        weight = NULLint;
+        connection= NULLpointer ;
+        nextnode = NULLpointer;
+    }
     int& operator*(){
         return weight;
     }
@@ -28,7 +36,7 @@ struct GPtrsNode{
 private:
     GPtrsNode<D_Grphi2>* nextnode;
 };
-template <class D_Grphi3 = int>//configure if this type is okay for this project
+template <class D_Grphi3 = Router>
 struct GPtrs{
 private:
     // this is a singly circular linked list that stores the pointers to the other nodes in the graph
@@ -106,10 +114,10 @@ public:
     }
 };
 //friend pair 2:
-template <class D_Grphi5 = int>//configure if this type is okay for this project
+template <class D_Grphi5 = String>
 struct LLNode{
     D_Grphi5 data;//make this template later
-    LLNode():data(NULLint), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
+    LLNode():data(NULLint-1), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
     LLNode(D_Grphi5 datai):data(datai), left(NULLpointer), right(NULLpointer), up(NULLpointer), down(NULLpointer){}
     ~LLNode(){
         left = NULLpointer;
@@ -118,6 +126,14 @@ struct LLNode{
         down = NULLpointer;
         delete data;
     }
+    LLNode<D_Grphi5>& operator=(const LLNode<D_Grphi5>& other){
+        data = other.data;
+        return *this;
+    }
+    LLNode<D_Grphi5>& operator=(const D_Grphi5& other){
+        data = other;
+        return *this;
+    }
     friend class D2LL<D_Grphi5>;
 private:
     LLNode* left;
@@ -125,13 +141,172 @@ private:
     LLNode* up;
     LLNode* down;
 };
-template <class D_Grphi6 = int>//configure if this type is okay for this project
+template <class D_Grphi6 = String>
 struct D2LL{
 private:
     LLNode<D_Grphi6>** o0_0o;
     int rows;
     int columns;
+    bool ExtractRouterMatrix(const string& input_file = "network.csv", const string& output_file = "routers.csv") {
+        ifstream file(input_file);
+        ofstream out(output_file);
+        if (!file.is_open()) {
+            // cout << "Could not open input file." << endl;
+            return false;
+        }
+        vector<vector<string>> all_data;
+        string line;
+        // Read all rows into memory
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string cell;
+            vector<string> row;
+            while (getline(ss, cell, ',')) {
+                row.push_back(cell);
+            }
+            all_data.push_back(row);
+        }
+        // Identify start index for rows and columns with label starting with 'R'
+        int row_start = -1, col_start = -1;
+        // Find first 'R' row
+        for (int i = 1; i < all_data.size(); ++i) {
+            if (!all_data[i][0].empty() && all_data[i][0][0] == 'R') {
+                row_start = i;
+                break;
+            }
+        }
+        // Find first 'R' column
+        for (int j = 1; j < all_data[0].size(); ++j) {
+            if (!all_data[0][j].empty() && all_data[0][j][0] == 'R') {
+                col_start = j;
+                break;
+            }
+        }
+        if (row_start == -1 || col_start == -1) {
+            // cout << "Router labels not found in rows/columns." << endl;
+            return false;
+        }
+        // Write header row with empty (0,0) cell
+        out << ""; // top-left cell left empty
+        for (int j = col_start; j < all_data[0].size(); ++j) {
+            out << "," << all_data[0][j];
+        }
+        out << endl;
+        // Write remaining router matrix with row labels
+        for (int i = row_start; i < all_data.size(); ++i) {
+            out << all_data[i][0]; // row label
+            for (int j = col_start; j < all_data[i].size(); ++j) {
+                out << "," << all_data[i][j];
+            }
+            out << endl;
+        }
+        file.close();
+        out.close();
+        // cout << "Router matrix written to " << output_file << " with empty (0,0) cell." << endl;
+        return true;
+    }
 public:
+    friend class Graph<D_Grphi6>;
+    friend ostream& operator<<(ostream& os, const D2LL<D_Grphi6>& obj){
+        for(int i = 0; i < obj.rows; i++){
+            for(int j = 0; j < obj.columns; j++){
+                os << obj.o0_0o[i][j].data << ",";
+            }
+            os << endl;
+        }
+        return os;
+    }
+    bool read_whole_csv(const String& file_name = NULLstring){// use for string
+        // read the csv file and fill the all_connections
+        // return true if successful, false otherwise
+        const string file_to_read = (file_name == NULLstring) ? "network.csv" : csv_file_name;
+        ifstream file(file_to_read);
+        if (!file.is_open()) {
+            // cout << "Failed to open file." << endl;
+            return false;
+        }
+        vector<vector<string>> temp_data;
+        string line;
+        // Read and skip the first row (column headers)
+        // getline(file, line); 
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string cell;
+            vector<string> row;
+            // Skip the first column (row header)
+            // getline(ss, cell, ',');
+            // Read remaining cells
+            while (getline(ss, cell, ',')) {
+                row.push_back(cell);
+            }
+            temp_data.push_back(row);
+        }
+        int n = temp_data.size(); // since it's square, row count = col count
+        string** data = new string*[n];
+        for (int i = 0; i < n; ++i) {
+            data[i] = new string[n];
+            for (int j = 0; j < n; ++j) {
+                data[i][j] = temp_data[i][j];
+            }
+        }
+        initialise(n, n);
+        for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    // get(i,j) =((data[i][j]=="?")?(-1):(stoi(data[i][j])));
+                    get(i,j) =data[i][j];
+                }
+            }
+        for(int i = 0; i < n; i++){
+            delete[] data[i];
+        }
+        delete[] data;
+        return true;
+    }
+    bool read_almost_all_csv(const String& file_name = NULLstring){// use for int
+        if(!ExtractRouterMatrix())return false;
+        const string file_to_read = (file_name == NULLstring) ? "routers.csv" : csv_file_name;
+        ifstream file(file_to_read);
+        if (!file.is_open()) {
+            // cout << "Failed to open file." << endl;
+            return false;
+        }
+        vector<vector<string>> temp_data;
+        string line;
+        // Read and skip the first row (column headers)
+        getline(file, line); 
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string cell;
+            vector<string> row;
+            // Skip the first column (row header)
+            getline(ss, cell, ',');
+            // Read remaining cells
+            while (getline(ss, cell, ',')) {
+                row.push_back(cell);
+            }
+            temp_data.push_back(row);
+        }
+        int n = temp_data.size(); // since it's square, row count = col count
+        string** data = new string*[n];
+        for (int i = 0; i < n; ++i) {
+            data[i] = new string[n];
+            for (int j = 0; j < n; ++j) {
+                data[i][j] = temp_data[i][j];
+            }
+        }
+        initialise(n, n);
+        for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    get(i,j) =((data[i][j]=="?")?(-1):(stoi(data[i][j])));
+                    // get(i,j) =data[i][j];
+                }
+            }
+        for(int i = 0; i < n; i++){
+            delete[] data[i];
+        }
+        delete[] data;
+        return true;
+    }
     D2LL(){
         o0_0o = NULLpointer;
     }
@@ -181,6 +356,10 @@ public:
         if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
         return o0_0o[i][j];
     }
+    D_Grphi6& get(int i, int j){
+        if(i < 0 || i >= rows || j < 0 || j >= columns) return NULLpointer;
+        return (o0_0o[i][j].data);
+    }
     ~D2LL(){
         for(int i = 0; i < rows; i++){
             delete[] o0_0o[i];
@@ -188,33 +367,55 @@ public:
         delete[] o0_0o;
     }
 };
-
-template <class D_Grphi4 = int, class Adj_List_type = int>//configure if this type is okay for this project
+template <class D_Grphi4 = Router, class Adj_List_type = String, class RT_type_connects = int>
 struct Graph{
     GraphNode<D_Grphi4>* top;
-    D2LL<Adj_List_type> connection_list;
+    D2LL<Adj_List_type> all_connections;
+    D2LL<RT_type_connects> LANS;
     int nodes;
     Graph():top(NULLpointer){
         nodes=-1;
-        if(read_whole_csv()){
+        if(all_connections.read_whole_csv() && LANS.read_almost_all_csv()){
             make_graph();
         }
         else{
-            ~Graph();
+            finish_graph();
         }
     }
-    bool read_whole_csv(){
-        // read the csv file and fill the connection_list
-        // return true if successful, false otherwise
+    bool make_graph(){
+        int r=0, c=0;
+        for(;r;r++){
+            for(;c;c++){
 
-        return true;
+            }
+        }
     }
-    bool make_graph(){}
+    bool add_node(){
+        if(!top){
+            D_Grphi4* datai = new D_Grphi4();
+            top = new GraphNode<D_Grphi4>();
+            nodes++;
+            return true;
+        }
+        else{
+
+        }
+        return false;
+    }
     bool delete_node(){}
     ~Graph(){
+        finish_graph();
+        delete all_connections;
+        (!top)?() : delete top;
+    }
+    void finish_graph(){
+        if(!top) return;
+    }
+    GraphNode<D_Grphi4>& operator[](long long int IDi){
+        static GraphNode<D_Grphi4> NullNode7;
+        if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
         
-        
-        delete connection_list;
+
     }
 };
 
