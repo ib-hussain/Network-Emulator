@@ -1,2 +1,0 @@
-#aleesha
-i made a part of the splay tree class with templates, rest is up to you to make it properly, and make it error free and also make it complete because it is still a little incomplete
