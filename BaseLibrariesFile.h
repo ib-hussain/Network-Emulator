@@ -13,14 +13,17 @@
 #include <cstring>
 #include <algorithm>
 using namespace std;
+// MACROS:
 #define NULLint 0
-#define FULLint -32765
+#define FULLint 32765
+#define UNDERint -32765
 #define NULLchar '\0'
 #define NULLstring ""
 #define NULLbool NULL
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
+
 // ALL DECLARATIONS:
 struct LLNode;
 struct D2LL;
@@ -40,9 +43,10 @@ struct Entry;
 struct Linear_List;
 struct STree;
 void start_engine();
+
 // GLOBAL CONSTANTS/VARIABLES:
 const unsigned short int latency_queue_forwarding = 0;
-unsigned long long int global_ID_declare = 32767;
+unsigned long long int global_ID_declare = FULLint;
 const bool debug = true;
 D2LL<String> all_connections;
 all_connections.read_whole_csv();
