@@ -7,18 +7,21 @@ private:
     // this is a singly circular linked list that stores the pointers to the other nodes in the graph
     GPtrsNode<D_Grphi3>* tail;
     int nodes;
+    
+public:
+    GPtrs(): tail(NULLpointer), nodes(0) {}
     bool insert(GraphNode<D_Grphi3>* newNode, int weighti){
         if(!tail){
-            tail = new GPtrsNode<D_Grphi3>(weighti, newNode);//fix this constructor call here
+            tail = new GPtrsNode<D_Grphi3>(weighti, newNode);
             tail->nextnode = tail;
             nodes++;
             return true;
         }
         else{
-            GPtrsNode* newNode = new GPtrsNode<D_Grphi3>(weighti, newNode);
-            newNode->nextnode = tail->nextnode;
-            tail->nextnode = newNode;
-            tail = newNode;
+            GPtrsNode<D_Grphi3>* newNodePtr = new GPtrsNode<D_Grphi3>(weighti, newNode);
+            newNodePtr->nextnode = tail->nextnode;
+            tail->nextnode = newNodePtr;
+            tail = newNodePtr;
             nodes++;
             return true;
         }
@@ -46,8 +49,6 @@ private:
     bool ifempty(){
         return (tail == NULLpointer);
     }
-public:
-    GPtrs(): head(NULLpointer), tail(NULLpointer), nodes(-1) {}
     GPtrsNode<D_Grphi3>& operator[](int i){
         static GPtrsNode<D_Grphi3> NullNode;
         if(i < 0 || i >= nodes) return NullNode;
@@ -68,14 +69,17 @@ public:
         return NullNode1;
     }
     ~GPtrs(){
-        GPtrsNode<D_Grphi3>* current = tail->nextnode;
-        GPtrsNode<D_Grphi3>* next = NULLpointer;
-        do{
-            next = current->nextnode;
-            delete current;
-            current = next;
-        }while(current != tail->nextnode);
-        delete tail;
+        if(tail) {
+            GPtrsNode<D_Grphi3>* current = tail->nextnode;
+            GPtrsNode<D_Grphi3>* next = NULLpointer;
+            do{
+                next = current->nextnode;
+                delete current;
+                current = next;
+            }while(current != tail->nextnode);
+            delete tail;
+        }
     }
+    friend class Graph<D_Grphi3>;
 };
 #endif

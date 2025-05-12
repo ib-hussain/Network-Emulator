@@ -2,59 +2,101 @@
 #define GRAPH_H
 #include "D2LL.h"
 
-template <class D_Grphi4 = Router, class RT_type_connects = long long int>
+template <class D_Grphi4 = Router>
 struct Graph{
 private:
     bool newGraph;
 public:
-    GraphNode<D_Grphi4>* top;
-    D2LL<RT_type_connects> LANS;
+    D2LL<D_Grphi4>* nodes_array;
     long long int nodes;
     Graph():top(NULLpointer){
-        nodes=-1; newGraph =true;
+        nodes = -1;
+        newGraph = true;
     }
-    bool make_graph(){
+    // Calculate number of routers from CSV file
+    long long int calculate_routers(const string& filename = "router.csv") {
+        ifstream file(filename);
+        if (!file.is_open()) {
+            if(debug)cout << "Error: Cannot open file " << filename << "\n";
+            return -1;
+        }
+        string line;
+        long long int count = 0;
+        bool skip_header = true;
+        if (skip_header && getline(file, line)){}
+        while (getline(file, line)) {
+            if (!line.empty()) ++count;
+        }
+        file.close();
+        return count;
+    }
+
+    // Make the whole graph of routers and create a matrix for Dijkstra's algorithm
+    void make_djikstra_matrix() {
+        long long int num_routers = calculate_routers(); // e.g., 5
+        if(num_routers <= 0) return;
         
-    }
-    long long int calculate_routers(){
-        // read from router.csv and return the number of routers
-    }
-    //make the whole graph of routers, join them,then make another csv which has all the IDs of the routers, and weights and -1 instead of ?
-    void make_djikstra(){
-        LANS.initialise((2*calculate_routers()), 3);
-
-    }
-    //make a whole array for djikstra
-    // pass that fucking matrix to every machine so it makes its all_connection
-    // pass that to every fucking router
-    // use the ID's for tracking maybe
-    bool add_node(){
-        if(!top){
-            D_Grphi4* datai = new D_Grphi4();
-            top = new GraphNode<D_Grphi4>();
-            nodes++;
-            return true;
+        LANS.initialise(num_routers, num_routers);
+        ifstream file("router.csv");
+        if (!file.is_open()) {
+            if(debug) cout << "Error: Cannot open file router.csv\n";
+            return;
         }
-        else{
-
+        string line;
+        bool skip_header = true;
+        if (skip_header && getline(file, line)) {} // skip header
+        
+        long long int row = 0;
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string token;
+            getline(ss, token, ','); // Skip the router label in first column (e.g., R1)
+            long long int col = 0;
+            while (getline(ss, token, ',')) {
+                if (token == "?" || token == " ?" || token.empty()) {
+                    LANS.get(row, col) = -1;
+                } else {
+                    LANS.get(row, col) = stoi(token);
+                }
+                ++col;
+            }
+            ++row;
         }
+        file.close();
+    }
+    bool make_graph(){}
+    bool add_node(D_Grphi4& router_data) {
+    
+    }
+    // Delete a node from the graph
+    bool delete_node(long long int IDi) {
+        if (newGraph || !nodes_array) return false;
+        
         return false;
     }
-    bool delete_node(){}
-    ~Graph(){
+    ~Graph() {
         finish_graph();
-        delete all_connections;
-        (!top)? return : if(debug)cout<<"Top node isnt deleted still"<<endl;
-        delete top;
     }
-    void finish_graph(){}
-    // GraphNode<D_Grphi4>& operator[](long long int IDi){
-    //     static GraphNode<D_Grphi4> NullNode7;
-    //     if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
+    void finish_graph() {
+        if (nodes_array) {
+            for (int i = 0; i < nodes; i++) {
+                delete nodes_array[i];
+            }
+            delete[] nodes_array;
+            nodes_array = nullptr;
+        }
+        top = nullptr;
+        nodes = 0;
+        newGraph = true;
+    }
+    GraphNode<D_Grphi4>& operator[](long long int IDi) {
+        static GraphNode<D_Grphi4> NullNode7;
+        if ((IDi < 0) || (IDi > global_ID_declare + 1)) return NullNode7;
         
-
-    // }
+        
+        return NullNode7;
+    }
+    
+    
 };
-
-
 #endif

@@ -42,7 +42,7 @@ struct Router{
         delete outgoing_Queue;
     }
     bool add_machine(const String& namei = NULLstring){
-        return machine_tree.insert(Machine(namei));
+        return machine_tree.insert(Machine(namei,));
     }
 };
 #endif

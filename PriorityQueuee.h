@@ -82,7 +82,6 @@ public:
             temp->next=NN;
         }
     }
-    
     // deletion- max-priority
     void deletionMAXpriority()
      {
@@ -108,8 +107,6 @@ public:
         delete temp;
         temp = NULLpointer;
     }
-
-
     // peek function- max-priority
     PQ_DT2& peekMAXpriority()const
     {
@@ -123,7 +120,7 @@ public:
         {
             temp=temp->next;
         }
-        cout<<"highest priority element is: "<<temp->data<<endl;
+        if(debug)cout<<"highest priority element is: "<<temp->data<<endl;
         return temp->data;
     }
 
@@ -135,15 +132,15 @@ public:
             if(debug)cout << "Queue is empty" << endl;
             return;
         }
-        cout << "Max-Priority Queue: " << endl;
+        if(debug)cout << "Max-Priority Queue: " << endl;
         PQ_Node<PQ_DT2> *temp = head;
         while (temp != NULLpointer)
         {
-            cout << temp->data << " (Priority: " << temp->getPriority() << ") ->";
+            if(debug)cout << temp->data << " (Priority: " << temp->getPriority() << ") ->";
             temp = temp->next;
         }
 
-        cout << "NULL";
+        if(debug)cout << "NULL";
     }
     
     // OPERATOR OVERLOADING - max-priority
