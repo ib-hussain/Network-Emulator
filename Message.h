@@ -21,6 +21,19 @@ struct Message{
         }
     }
     Message(Message* other): ID(other->ID), priority(other->priority), source_address(other->source_address), destination_address(other->destination_address), payload(other->payload), path(other->path){}
+    Message(): ID(NULLint), priority(NULLint), source_address(NULLstring), destination_address(NULLstring), payload(NULLstring), path(NULLstring){}
+    Message& operator=(Message &other){
+        if(this != &other){
+            ID = other.ID;
+            priority = other.priority;
+            source_address = other.source_address;
+            destination_address = other.destination_address;
+            payload = other.payload;
+            path = other.path;
+        }
+        other.destructor();
+        return *this;
+    }
     ~Message(){
         destructor();
     }
@@ -30,6 +43,17 @@ struct Message{
         delete payload;
         delete path;
         return true;
+    }
+    
+private:
+    friend void writePath(const Message &msg);
+    friend ostream& operator<<(ostream &out, const Message &msg){
+        out << msg.ID <<':'<<msg.priority<<':'<<msg.source_address<< ':'
+            << msg.destination_address << ":\"" << msg.payload << "\":\"" << msg.path<<"\"\n";
+        return out;
+    }
+    String toPathString() const {
+        return to_string(ID) + ":\"" + path + "\"";
     }
 };
 

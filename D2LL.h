@@ -288,5 +288,4 @@ public:
     }
 };
 
-
 #endif

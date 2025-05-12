@@ -51,7 +51,30 @@ unsigned long long int global_ID_declare = FULLint;
 const bool debug = true;
 D2LL<String> all_connections;
 all_connections.read_whole_csv();
+ofstream clearFile2("recieved_messages.txt", std::ios::trunc);
+clearFile2.close();
+ofstream clearFile4("path.txt", std::ios::trunc);
+clearFile4.close();
 // GLOBAL FUNCTIONS:
+void writeMessage(const Message &msg) {
+    ofstream file("recieved_messages.txt", std::ios::app); // append mode
+    if (file.is_open()) {
+        file << msg;
+        file.close();
+    }
+    else{
+        if(debug)cout << "Failed to open recieved_messages.txt for writing." << endl;
+    }
+}
+void writePath(const Message &msg) {
+    ofstream file("path.txt", std::ios::app);
+    if (file.is_open()) {
+        file << msg.toPathString() << endl;
+        file.close();
+    } else {
+        if(debug) cout << "Failed to open path.txt for writing." << endl;
+    }
+}
 void wait(){
     auto startTime = std::chrono::steady_clock::now();
     std::srand(static_cast<unsigned int>(std::time(NULLpointer)));
