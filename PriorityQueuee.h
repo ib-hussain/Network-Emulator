@@ -1,11 +1,12 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 #include "BaseLibrariesFile.h"
+#include "Message.h"
 template <class PQ_DT1 = Message>
 struct PQ_Node{
 private:
     PQ_Node *next;
-    short int priority;
+    
 public:
     PQ_DT1 data;
     PQ_Node(PQ_Node<PQ_DT1>& copy, bool kill=false): data(copy.data), next(NULLpointer), priority(copy.priority){ //killer constructor
@@ -13,19 +14,20 @@ public:
             copy.data.destructor();
         }
     }
-    PQ_Node(PQ_DT1 value,short int p){
+    PQ_Node(PQ_DT1 value){
         data = value;
         next = NULLpointer;
-        priority=p;
+        
     }
-    PQ_Node(){
+    PQ_Node()
+    {
         data = PQ_DT1();
         next = NULLpointer;
-        priority=0;
+        
     }
     PQ_Node(PQ_Node<PQ_DT1>& copy){
         data=copy.data;
-        priority = copy.priority;
+        
         next = NULLpointer;
     }
     PQ_Node(PQ_Node<PQ_DT1>* copy){
@@ -33,13 +35,13 @@ public:
             return;
         }
         data=copy->data;
-        priority = copy->priority;
+        
         next = NULLpointer;
     }
     PQ_Node<PQ_DT1>& operator=(const PQ_Node<PQ_DT1>&op){
         if (this!=&op){
             data=op.data;
-            priority = op.priority;
+           
         }   
         return *this;
     }
@@ -47,13 +49,13 @@ public:
         if (this!=op)
         {
             data=op->data;
-            priority = op->priority;
+            
         }
         return *this;
     }
     short int getPriority() const 
     { 
-        return priority; 
+        return data.priority; 
     }
 };
 template <class PQ_DT2 = Message>
@@ -66,9 +68,9 @@ public:
     bool isEmpty(){return head == NULLpointer;}
     // max-priority queue
      // insertion- max-priority
-    void insertionMAXpriority(PQ_DT2 val,short int priority) 
+    void insertionMAXpriority(PQ_DT2 val) 
     {
-        PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val, priority);
+        PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val);
         if (head == NULLpointer || head->getPriority() < NN->getPriority())
         {
             NN->next = head;
@@ -77,7 +79,7 @@ public:
         else
         {
             PQ_Node<PQ_DT2> *temp = head;
-            while (temp->next != NULLpointer&&temp->next->getPriority()>=priority)
+            while (temp->next != NULLpointer&&temp->next->getPriority()>=val.priority)
             {
                 temp=temp->next;
             }
@@ -96,13 +98,12 @@ public:
             return;
         }
         PQ_Node<PQ_DT2> *temp=head;
-        if (temp->next==NULLpointer||temp->getPriority()>temp->next->getPriority())
-        {
+        
             head=head->next;
             delete temp;
             temp=NULLpointer;
-            return;
-        }
+            
+        
         PQ_Node<PQ_DT2>*prev=temp;
         while (temp->next!=NULLpointer&&temp->next->getPriority()>=temp->getPriority())
         {
@@ -165,7 +166,7 @@ public:
             temp = temp->next;
             count++;
         }
-        return *(new PQ_Node<PQ_DT2>(PQ_DT2(), -1));
+        return *(new PQ_Node<PQ_DT2>(PQ_DT2()s));
     }
     
     // DESTRUCTOR- max-priority
