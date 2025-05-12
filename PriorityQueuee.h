@@ -8,6 +8,11 @@ private:
     short int priority;
 public:
     PQ_DT1 data;
+    PQ_Node(PQ_Node<PQ_DT1>& copy, bool kill=false): data(copy.data), next(NULLpointer), priority(copy.priority){ //killer constructor
+        if(kill){
+            copy.data.destructor();
+        }
+    }
     PQ_Node(PQ_DT1 value,short int p){
         data = value;
         next = NULLpointer;
