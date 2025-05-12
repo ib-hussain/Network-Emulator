@@ -1,14 +1,13 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "D2LL.h"
-// GraphNode<D_Grphi4>* top;
 // D2LL<RT_type_connects> LANS;
-template <class D_Grphi4 = Router, class RT_type_connects = long long int>
+template <class D_Grphi4 = Router>
 struct Graph{
 private:
     bool newGraph;
 public:
-    
+    GraphNode<D_Grphi4>* top;
     long long int nodes;
     Graph():top(NULLpointer){
         nodes=-1; newGraph =true;
@@ -63,24 +62,19 @@ public:
     }
     bool make_graph(){
         
+
+
+        newGraph = false;
+        return true;
     }
     //make a whole array for djikstra
     // pass that fucking matrix to every machine so it makes its all_connection
     // pass that to every fucking router
     // use the ID's for tracking maybe
     bool add_node(){
-        if(!top){
-            D_Grphi4* datai = new D_Grphi4();
-            top = new GraphNode<D_Grphi4>();
-            nodes++;
-            return true;
-        }
-        else{
-
-        }
-        return false;
+        
     }
-    bool delete_node(){}
+    bool delete_node(long long int IDi){}
     ~Graph(){
         finish_graph();
         delete all_connections;
@@ -88,12 +82,12 @@ public:
         delete top;
     }
     void finish_graph(){}
-    // GraphNode<D_Grphi4>& operator[](long long int IDi){
-    //     static GraphNode<D_Grphi4> NullNode7;
-    //     if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
+    GraphNode<D_Grphi4>& operator[](long long int IDi){
+        static GraphNode<D_Grphi4> NullNode7;
+        if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
         
 
-    // }
+    }
 };
 
 

@@ -1,9 +1,5 @@
 #include "Graph.h"
-#include <iostream>
-#include <string>
-#include <sstream>
-using namespace std;
-
+//all files are included on backend
 //CLI commands
     // take all the data in the commas as input
     // but do parse the whole line and the way i have shown, extract data from it
@@ -62,12 +58,13 @@ void extraction(const string& str, string results[], int& count)
 }
 
 // Function to display the menu
-void show_menu() {
+//also ask user if they want to use splay tree or not
+void show_menu() {// these should be 13 conditions here, not just 8
     cout<<"_________________________ Network Emulator Commands_________________________\n";
-    cout<<"1. change edge \"file.csv\"  OR  \"Router1\",\"Router2\",\"Weight\"\n";
-    cout<<"2. send msg \"file.txt\"\n";
-    cout<<"3. send msgs \"file.txt\"\n";
-    cout<<"4. change RT add/remove \"file.csv\"  OR  \"Machine\",\"Router\"\n";
+    cout<<"1. change edge \"FILE_NAME.csv\"  OR  \"Router1\",\"Router2\",\"Weight\"\n";
+    cout<<"2. send msg \"FILE_NAME.txt\"\n";
+    cout<<"3. send msgs \"FILE_NAME.txt\"\n";
+    cout<<"4. change RT add/remove \"FILE_NAME.csv\"  OR  \"Machine\",\"Router\"\n";
     cout<<"5. print path \"Machine1\" to \"Machine2\"\n";
     cout<<"6. exit\n";
     cout<<"_____________________________________________________________________________\n";

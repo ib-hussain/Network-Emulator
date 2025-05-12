@@ -51,6 +51,7 @@ unsigned long long int global_ID_declare = FULLint;
 const bool debug = true;
 D2LL<String> all_connections;
 all_connections.read_whole_csv();
+D2LL<long long int> LANS;
 ofstream clearFile2("recieved_messages.txt", std::ios::trunc);
 clearFile2.close();
 ofstream clearFile4("path.txt", std::ios::trunc);
@@ -271,7 +272,7 @@ String Print_Path(String start, String end)
 
     if (!file.is_open())
      {
-        cout << "could not open received messages file " <<endl;
+        if(debug)cout << "could not open received messages file " <<endl;
         return NULLstring;
     }
 
@@ -329,9 +330,7 @@ String Print_Path(String start, String end)
             break;
         }
     }
-
     file.close();
-
     if (path_found) 
     {
         ofstream path_file("path.txt");
@@ -344,7 +343,7 @@ String Print_Path(String start, String end)
         return NULLstring;
     }
 
-    return "No message found";
+    return NULLstring;
 }
 
 #endif
