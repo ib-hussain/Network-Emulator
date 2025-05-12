@@ -21,7 +21,7 @@ public:
     PQ_Node(){
         data = PQ_DT1();
         next = NULLpointer;
-        priority=0;
+        priority=NULLint;
     }
     PQ_Node(PQ_Node<PQ_DT1>& copy){
         data=copy.data;
@@ -116,12 +116,12 @@ public:
 
 
     // peek function- max-priority
-    PQ_DT2 peekMAXpriority()const
+    PQ_DT2& peekMAXpriority()const
     {
         PQ_Node<PQ_DT2>*temp=head;
         if (temp==NULLpointer)
         {
-            cout<<"Queue is empty"<<endl;
+            if(debug)cout<<"Queue is empty"<<endl;
             return PQ_DT2();
         }
         while (temp->next!=NULLpointer&&temp->next->getPriority()>=temp->getPriority())
@@ -137,7 +137,7 @@ public:
     {
         if (isEmpty())
         {
-            cout << "Queue is empty" << endl;
+            if(debug)cout << "Queue is empty" << endl;
             return;
         }
         cout << "Max-Priority Queue: " << endl;
@@ -190,7 +190,7 @@ public:
     return true;
     }
     
-    PQ_DT2 Dequeue()
+    PQ_DT2& Dequeue()
     {
     if (isEmpty())
      {
