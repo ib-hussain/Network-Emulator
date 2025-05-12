@@ -8,7 +8,7 @@ struct Machine{
     int weightage;
     Queue<Message> incoming;
     Queue<Message> outgoing;
-    Machine(const String& namei = NULLstring):name(namei), ID(++global_ID_declare), incoming(), outgoing(){}//original
+    Machine(const String& namei = NULLstring, int wt):name(namei), ID(++global_ID_declare), incoming(), outgoing(), weightage(wt){}//original
     Machine(Machine& other):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing), weightage(other.weightage){}//copy
     Machine(Machine* other):name(other->name), ID(other->ID), incoming(other->incoming), outgoing(other->outgoing){}//copy
     Machine(Machine& other, bool kill=false):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing){//killer
