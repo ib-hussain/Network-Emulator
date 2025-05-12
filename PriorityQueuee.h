@@ -9,13 +9,12 @@ private:
     
 public:
     PQ_DT1 data;
-    PQ_Node(PQ_Node<PQ_DT1>& copy, bool kill=false): data(copy.data), next(NULLpointer), priority(copy.priority){ //killer constructor
+    PQ_Node(PQ_Node<PQ_DT1>& copy, bool kill=false): data(copy.data), next(NULLpointer){ //killer constructor
         if(kill){
             copy.data.destructor();
         }
     }
-    PQ_Node(PQ_DT1 value){
-        data = value;
+    PQ_Node(PQ_DT1& value):data(value){
         next = NULLpointer;
         
     }
@@ -23,11 +22,8 @@ public:
     {
         data = PQ_DT1();
         next = NULLpointer;
-        
     }
-    PQ_Node(PQ_Node<PQ_DT1>& copy){
-        data=copy.data;
-        
+    PQ_Node(PQ_Node<PQ_DT1>& copy)data(copy.data), priority(copy.priority){
         next = NULLpointer;
     }
     PQ_Node(PQ_Node<PQ_DT1>* copy){
@@ -35,13 +31,11 @@ public:
             return;
         }
         data=copy->data;
-        
         next = NULLpointer;
     }
     PQ_Node<PQ_DT1>& operator=(const PQ_Node<PQ_DT1>&op){
         if (this!=&op){
             data=op.data;
-           
         }   
         return *this;
     }
@@ -68,7 +62,7 @@ public:
     bool isEmpty(){return head == NULLpointer;}
     // max-priority queue
      // insertion- max-priority
-    void insertionMAXpriority(PQ_DT2 val) 
+    void insertionMAXpriority(PQ_DT2& val) 
     {
         PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val);
         if (head == NULLpointer || head->getPriority() < NN->getPriority())
@@ -117,12 +111,12 @@ public:
 
 
     // peek function- max-priority
-    PQ_DT2 peekMAXpriority()const
+    PQ_DT2& peekMAXpriority()const
     {
         PQ_Node<PQ_DT2>*temp=head;
         if (temp==NULLpointer)
         {
-            cout<<"Queue is empty"<<endl;
+            if(debug)cout<<"Queue is empty"<<endl;
             return PQ_DT2();
         }
         while (temp->next!=NULLpointer&&temp->next->getPriority()>=temp->getPriority())
@@ -138,7 +132,7 @@ public:
     {
         if (isEmpty())
         {
-            cout << "Queue is empty" << endl;
+            if(debug)cout << "Queue is empty" << endl;
             return;
         }
         cout << "Max-Priority Queue: " << endl;
@@ -166,7 +160,7 @@ public:
             temp = temp->next;
             count++;
         }
-        return *(new PQ_Node<PQ_DT2>(PQ_DT2()s));
+        return *(new PQ_Node<PQ_DT2>(PQ_DT2()));
     }
     
     // DESTRUCTOR- max-priority
@@ -181,17 +175,17 @@ public:
     //---------------------------------------------------------------------------------
 
 
-   bool Enqueue(PQ_DT2& val, short int priority = 0)
+   bool Enqueue(PQ_DT2& val)
     {
-    if (&val==nullptr) 
+    if (&val==NULLpointer) 
     {
         return false;
     }
-    insertionMAXpriority(val,priority);
+    insertionMAXpriority(val);
     return true;
     }
     
-    PQ_DT2 Dequeue()
+    PQ_DT2& Dequeue()
     {
     if (isEmpty())
      {

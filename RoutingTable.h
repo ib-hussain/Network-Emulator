@@ -1,11 +1,15 @@
 #ifndef ROUTINGTABLE_H
 #define ROUTINGTABLE_H
 #include "SinglyLinkedList.h"
+#include "SplayTree.h"
 //perfected------------------------------------------------------------------------
 struct Entry{
+private:
+    const long long int ID;
+public:
     String destination;
     String next_router;// outgoing queue direction
-    Entry(const String& dest = NULLstring, const String& next = NULLstring):destination(dest), next_router(next){}
+    Entry(const String& dest = NULLstring, const String& next = NULLstring):destination(dest), next_router(next), ID(++global_ID_declare){}
     friend ostream& operator<<(ostream& out, const Entry& entry){
         out <<entry.destination << "," << entry.next_router;
         return out;
@@ -15,7 +19,7 @@ struct Entry{
         in >> entry.next_router;
         return in;
     }
-    Entry(const Entry& other):destination(other.destination), next_router(other.next_router){}
+    Entry(const Entry& other):destination(other.destination), next_router(other.next_router), ID(++global_ID_declare){}
     Entry& operator=(const Entry& other){
         if(this != &other){
             destination = other.destination;
@@ -23,10 +27,10 @@ struct Entry{
         }
         return *this;
     }
-    Entry(Entry& other, bool kill=false):destination(other.destination), next_router(other.next_router){
+    Entry(Entry& other, bool kill=false):destination(other.destination), next_router(other.next_router), ID(++global_ID_declare){
         if(kill){other.~Entry();}
     }
-    Entry(Entry* other):destination(other->destination), next_router(other->next_router){}
+    Entry(Entry* other):destination(other->destination), next_router(other->next_router), ID(++global_ID_declare){}
     ~Entry(){
         delete destination;
         delete next_router;
@@ -34,15 +38,39 @@ struct Entry{
 };
 struct RoutT{
     Linear_List<Entry> tabular;
-    RoutT(){}
+    STree<Entry> tree;
+    RoutT():Linear_List(), tree(){
+        if(debug)cout<<"Routing Table Created"<<endl;
+        if(use_splaytree()){
+            delete tabular;
+        }else{
+            delete tree;
+        }
+    }
     bool add(const String& dest, const String& next){//add M4,R1
-        Entry<rt_dtype11> new_entry(dest, next);
-        return tabular.insert(new_entry);
+        Entry new_entry(dest, next);
+        if(use_splaytree()){
+            tree.insert(new_entry);
+            return true;
+        }
+        else{
+            return tabular.insert(new_entry);
+        }
+        return false;
     }
     bool remove(const String& dest, const String& next){// remove M4,R2
-        for(int d=0;d<=tabular.nodes;d++){
-            if((tabular[d].destination == dest) && (tabular[d].next_router == next)){
-                return tabular.delete_entry(tabular[d]);
+        if(use_splaytree()){
+            for(int d=FULLint;d<=(global_ID_declare+1);d++){
+                if((tree[d].destination == dest) && (tree[d].next_router == next)){
+                    tree.remove(d);
+                }
+            }
+            return true;
+        }else{
+            for(int d=FULLint;d<=(global_ID_declare+1);d++){
+                if((tabular[d].destination == dest) && (tabular[d].next_router == next)){
+                    return tabular.delete_entry(tabular[d]);
+                }
             }
         }
         return false;
@@ -131,8 +159,13 @@ struct RoutT{
         delete[] data;
         return true;
     }
+    
     ~RoutT(){
-        delete tabular;
+        if(use_splaytree()){
+            delete tree;
+        }else{
+            delete tabular;
+        }
     }
 };
 #endif
