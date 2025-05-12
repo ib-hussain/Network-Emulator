@@ -30,6 +30,135 @@ struct Router{
     outgoing0& send_message(outgoing0& newmessage){
         return outgoing_Queue.Dequeue();
     }
+    bool add_machines_from_all_connections() {
+        int router_row = -1;
+
+        // Find router's row in all_connections
+        for (int i = 0; i < all_connections.rows; ++i) {
+            if (all_connections.get(i, 0) == name) {
+                router_row = i;
+                break;
+            }
+        }
+        if (router_row == -1) return false;
+
+        // Loop through all columns to find connected machines
+        for (int j = 1; j < all_connections.columns; ++j) {
+            String target = all_connections.get(0, j);
+            if (target[0] == 'M') {
+                String weight_str = all_connections.get(router_row, j);
+                if (weight_str != "?" && weight_str != " ?" && weight_str != "") {
+                    int weight = stringToInt(weight_str);
+                    Machine m(target, weight);
+                    machine_tree.insert(m);
+                }
+            }
+        }
+        return true;
+    }
+    bool process_outgoing_queue(Graph<Router>& graph) {
+        while (!outgoing_Queue.isEmpty()) {
+            Message msg = outgoing_Queue.Dequeue();
+
+            // Get destination machine name
+            String destination = msg.destination_address;
+
+            // Decide the next router using routing table
+            String next_router = routing_table_find_next(destination);
+            if (next_router == NULLstring) {
+                if (debug) cout << "No route found for message to " << destination << endl;
+                continue;
+            }
+
+            msg(msg.source_address); // update path
+
+            // Try to forward to a machine connected to this router
+            if (machine_tree.search(destination)) {
+                Machine* m_ptr = machine_tree.get_node(destination);
+                m_ptr->recieve_message(msg);
+                if (debug) cout << "Delivered to machine " << destination << endl;
+                continue;
+            }
+
+            // Otherwise, send to the next router
+            for (int i = 0; i <= graph.nodes; i++) {
+                if (graph.nodes_array->get(i, 0).name == next_router) {
+                    Router& next_r = graph.nodes_array->get(i, 0);
+                    next_r.receive_message(msg);
+                    if (debug) cout << "Forwarded to router " << next_router << endl;
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+    String routing_table_find_next(const String& dest) {
+        if (use_splaytree()) {
+            for (int d = 0; d <= global_ID_declare + 1; d++) {
+                if (routing_table.tree[d].destination == dest) {
+                    return routing_table.tree[d].next_router;
+                }
+            }
+        } else {
+            for (int d = 0; d <= global_ID_declare + 1; d++) {
+                if (routing_table.tabular[d].destination == dest) {
+                    return routing_table.tabular[d].next_router;
+                }
+            }
+        }
+        return NULLstring;
+    }
+    bool build_routing_table_from_graph(Graph<Router>& graph, int self_index) {
+        int dist[100];
+        bool visited[100];
+        int prev[100];
+
+        for (int i = 0; i < graph.nodes; i++) {
+            dist[i] = FULLint;
+            visited[i] = false;
+            prev[i] = -1;
+        }
+
+        dist[self_index] = 0;
+
+        for (int count = 0; count < graph.nodes; count++) {
+            int u = -1;
+            int min_dist = FULLint;
+            for (int i = 0; i < graph.nodes; i++) {
+                if (!visited[i] && dist[i] < min_dist) {
+                    min_dist = dist[i];
+                    u = i;
+                }
+            }
+            if (u == -1) break;
+            visited[u] = true;
+
+            for (int v = 0; v < graph.nodes; v++) {
+                int weight = LANS.get(u, v);
+                if (weight > 0 && !visited[v] && dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    prev[v] = u;
+                }
+            }
+        }
+
+        // Add entries to routing table
+        for (int dest = 0; dest < graph.nodes; dest++) {
+            if (dest == self_index || dist[dest] == FULLint) continue;
+
+            // Find next router on path
+            int hop = dest;
+            while (prev[hop] != self_index && prev[hop] != -1) {
+                hop = prev[hop];
+            }
+
+            String next_router = graph.nodes_array->get(hop, 0).name;
+            String destination = graph.nodes_array->get(dest, 0).name;
+            routing_table.add(destination, next_router);
+        }
+        return true;
+    }
+
     ~Router(){
         while(!incoming_Queue.isEmpty()){
             incoming_Queue.Dequeue();

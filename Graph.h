@@ -3,8 +3,7 @@
 #include "D2LL.h"
 
 template <class D_Grphi4 = Router>
-struct Graph
-{
+struct Graph{
 public:
     D2LL<D_Grphi4> *nodes_array;
     long long int nodes;
@@ -78,6 +77,27 @@ public:
         }
         file.close();
     }
+    bool change_edge(const String& router1, const String& router2, int new_weight) {
+        int index1 = -1, index2 = -1;
+        for (int i = 0; i < all_connections.rows; ++i) {
+            if (all_connections.get(i, 0) == router1) {
+                index1 = i;
+            }
+            if (all_connections.get(0, i) == router2) {
+                index2 = i;
+            }
+        }
+        if (index1 == -1 || index2 == -1) {
+            if (debug) cout << "Router name(s) not found.\n";
+            return false;
+        }
+        // Update both LANS and all_connections
+        LANS.get(index1, index2) = new_weight;
+        LANS.get(index2, index1) = new_weight;
+        all_connections.get(index1, index2) = to_string(new_weight);
+        all_connections.get(index2, index1) = to_string(new_weight);
+        return true;
+    }
     bool make_graph() {
         long long int num_routers = calculate_routers();
         if (num_routers <= 0) return false;
@@ -102,6 +122,7 @@ public:
             nodes_array->get(index, 0) = new_router;
             index++;
         }
+        
 
         file.clear();
         file.seekg(0);
@@ -127,20 +148,24 @@ public:
 
         file.close();
         nodes = num_routers;
-        for (int i = 0; i < nodes; ++i) {
-        Router& src_router = nodes_array->get(i, 0);
-        GraphNode<Router>* src_node = new GraphNode<Router>(src_router);
-
-        for (int j = 0; j < nodes; ++j) {
-            int weight = LANS.get(i, j);
-            if (weight > 0) {
-                Router& dest_router = nodes_array->get(j, 0);
-                GraphNode<Router>* dest_node = new GraphNode<Router>(dest_router);
-                src_node->pointers.insert(dest_node, weight);
-            }
+        // Let each router add its machines
+        for (int i = 0; i < nodes; i++) {
+            Router& router = nodes_array->get(i, 0);
+            router.add_machines_from_all_connections();
         }
-    }
+    //     for (int i = 0; i < nodes; ++i) {
+    //     Router& src_router = nodes_array->get(i, 0);
+    //     GraphNode<Router>* src_node = new GraphNode<Router>(src_router);
 
+    //     for (int j = 0; j < nodes; ++j) {
+    //         int weight = LANS.get(i, j);
+    //         if (weight > 0) {
+    //             Router& dest_router = nodes_array->get(j, 0);
+    //             GraphNode<Router>* dest_node = new GraphNode<Router>(dest_router);
+    //             src_node->pointers.insert(dest_node, weight);
+    //         }
+    //     }
+    // }
         return true;
     }
     bool add_node(D_Grphi4& router_data) {
