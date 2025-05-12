@@ -2,6 +2,7 @@
 #define GRAPHNODE_H
 
 #include "Router.h"
+#include "BaseLibrariesFile.h"
 template <class D_Grphi1 = Router>
 struct GraphNode{
     D_Grphi1 data;// this will have the name and the id itself
