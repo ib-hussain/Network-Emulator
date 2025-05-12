@@ -1,6 +1,6 @@
 #ifndef ROUTER_H
 #define ROUTER_H
-#include "PriorityQueue.h"
+#include "PriorityQueuee.h"
 #include "RoutingTable.h"
 #include "Message.h"
 #include "SplayTree.h"
@@ -14,7 +14,36 @@ struct Router{
     STree<Machine> machine_tree; 
     Router(const String& namei = NULLstring):name(namei), ID(++global_ID_declare), incoming_Queue(), outgoing_Queue(), routing_table(), machine_tree(){}
     Router():name("Default"), ID(NULLint){}
-    
+    bool receive_message(incoming0& newmessage){
+        if(!incoming_Queue.Enqueue(newmessage))return false;
+        return outgoing_Queue.Enqueue(incoming_Queue.Dequeue());
+    }
+    bool receive_message(incoming0* newmessage){
+        if(!incoming_Queue.Enqueue((*newmessage)))return false;
+        delete newmessage;
+        return outgoing_Queue.Enqueue(incoming_Queue.Dequeue());
+    }
+    bool receive_message(String src, String dest = NULLstring, String pl, short int p = NULLint){
+        if(!incoming_Queue.Enqueue(Message(src, dest, pl, p)))return false;
+        return outgoing_Queue.Enqueue(incoming_Queue.Dequeue());
+    }
+    outgoing0& send_message(outgoing0& newmessage){
+        return outgoing_Queue.Dequeue();
+    }
+    ~Router(){
+        while(!incoming_Queue.isEmpty()){
+            incoming_Queue.Dequeue();
+        }
+        while(!outgoing_Queue.isEmpty()){
+            outgoing_Queue.Dequeue();
+        }
+        delete name;
+        delete incoming_Queue;
+        delete outgoing_Queue;
+    }
+    bool add_machine(const String& namei = NULLstring){
+        return machine_tree.insert(Machine(namei));
+    }
 };
 #endif
 //CLI commands

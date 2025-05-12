@@ -5,13 +5,13 @@
 template <class D_Grphi4 = Router, class RT_type_connects = long long int>
 struct Graph{
 private:
-    bool newVar;
+    bool newGraph;
 public:
     GraphNode<D_Grphi4>* top;
     D2LL<RT_type_connects> LANS;
     long long int nodes;
     Graph():top(NULLpointer){
-        nodes=-1; newVar =true;
+        nodes=-1; newGraph =true;
     }
     bool make_graph(){
         
@@ -48,12 +48,12 @@ public:
         delete top;
     }
     void finish_graph(){}
-    GraphNode<D_Grphi4>& operator[](long long int IDi){
-        static GraphNode<D_Grphi4> NullNode7;
-        if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
+    // GraphNode<D_Grphi4>& operator[](long long int IDi){
+    //     static GraphNode<D_Grphi4> NullNode7;
+    //     if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
         
 
-    }
+    // }
 };
 
 
