@@ -70,33 +70,56 @@ void show_menu() {// these should be 13 conditions here, not just 8
     cout<<"_____________________________________________________________________________\n";
 }
 
-void start_engine() {
+void start_engine() 
+
+{
     string command;
 
     // Step 1: Force "change edge" first
-    while (true) {
+    while (true) 
+    {
         cout<<"\nBefore anything else, you MUST enter a 'change edge' command.\n> ";
         getline(cin, command);
 
-        if (find_substring(command, "change edge") == 0) {
+        if (find_substring(command, "change edge") == 0)
+        
+        {
             string tokens[10];
             int count = 0;
+
+
             extraction(command, tokens, count);
 
-            if (count > 0) {
-                if (find_substring(tokens[0], ".csv") != -1) {
+            if (count > 0) 
+            {
+                if (find_substring(tokens[0], ".csv") != -1) 
+
+                {
                     cout<<"Changing edges using file: "<<tokens[0]<<cout<<"\n";
+
                     // Graph::ChangeEdgeFromFile(tokens[0]);
-                } else if (count >= 3) {
+                } 
+                
+                else if (count >= 3)
+                 {
+                   
                     cout<<"Changing edge between "<<tokens[0]<<" and "<<tokens[1]<<" with weight "<<tokens[2]<<cout<<"\n";
                     // Graph::ChangeEdge(tokens[0], tokens[1], stoi(tokens[2]));
-                } else {
+                }
+                
+                else 
+                
+                {
                     cout<<"Invalid parameters for change edge.\n";
+
+
                     continue;
                 }
                 break;
             }
-        } else {
+        } else 
+        
+
             cout<<"You must enter a valid 'change edge' command first.\n";
         }
     }
@@ -104,89 +127,161 @@ void start_engine() {
     // Step 2: Normal Command Flow
     show_menu();
 
-    while (true) {
+    while (true)
+    
+    {
         cout<<"\nEnter command:\n> ";
         getline(cin, command);
 
-        if (command == "exit") {
-            cout<<"Exited the program\n";
-            break;
+        if (find_substring(command, "send msg") == 0) 
+        {
+    string tokens[10];
+
+
+    int count = 0;
+    extraction(command, tokens, count);
+    if (count > 0) {
+        cout << "Sending message from file: "<<tokens[0]<<"\n";
+        // Placeholder for Send_Message function
+        // Send_Message(tokens[0]);
+    }
+} else if (find_substring(command, "send msgs") == 0) 
+{
+    string tokens[10];
+    int count = 0;
+
+    extraction(command, tokens, count);
+
+    if (count > 0)
+     {
+        cout << "Sending multiple messages from file: "<<tokens[0]<<"\n";
+        // Placeholder for Send_Message_S function
+        // Send_Message_S(tokens[0]);
+    }
+}
+
+else if (find_substring(command, "change RT") == 0) 
+
+{
+    string tokens[10];
+    int count = 0;
+    extraction(command, tokens, count);
+    if (count == 0) continue;
+
+    if (find_substring(command, "add") != -1) 
+    {
+        if (find_substring(tokens[0], ".csv") != -1) 
+
+        {
+            cout << "Adding RT entries from file: "<<tokens[0]<<"\n";
+            // Placeholder for ChangeRT_AddFromFile function
+            // ChangeRT_AddFromFile(tokens[0]);
+        } else if (count >= 2) 
+        
+        {
+            cout << "Adding Machine: " << tokens[0]<<" to Router: "<<tokens[1]<<"\n";
+
+            // Placeholder for ChangeRT_AddMachine function
+            // ChangeRT_AddMachine(tokens[0], tokens[1]);
         }
 
-        if (find_substring(command, "send msg") == 0) {
-            string tokens[10];
-            int count = 0;
-            extraction(command, tokens, count);
-            if (count > 0) {
-                cout<<"Sending message from file: "<<tokens[0]<<cout<<"\n";
-                // Send_Message(tokens[0]);
-            }
-        } else if (find_substring(command, "send msgs") == 0) {
-            string tokens[10];
-            int count = 0;
-            extraction(command, tokens, count);
-            if (count > 0) {
-                cout<<"Sending multiple messages from file: "<<tokens[0]<<cout<<"\n";
-                // Send_Message_S(tokens[0]);
-            }
-        } else if (find_substring(command, "change RT") == 0) {
-            string tokens[10];
-            int count = 0;
-            extraction(command, tokens, count);
-            if (count == 0) continue;
+    } 
+    
+    else if (find_substring(command, "remove") != -1) 
+    {
+        if (find_substring(tokens[0], ".csv") != -1)
+         {
+            cout << "Removing RT entries from file: "<<tokens[0]<<"\n";
 
-            if (find_substring(command, "add") != -1) {
-                if (find_substring(tokens[0], ".csv") != -1) {
-                    cout<<"Adding RT entries from file: "<<tokens[0]<<cout<<"\n";
-                } else if (count >= 2) {
-                    cout<<"Adding Machine: "<<tokens[0]<<" to Router: "<<tokens[1]<<cout<<"\n";
-                    // ChangeRT_AddMachine(tokens[0], tokens[1]);
-                }
-            } else if (find_substring(command, "remove") != -1) {
-                if (find_substring(tokens[0], ".csv") != -1) {
-                    cout<<"Removing RT entries from file: "<<tokens[0]<<cout<<"\n";
-                    // ChangeRT_RemoveFromFile(tokens[0]);
-                } else if (count >= 2) {
-                    cout<<"Removing Machine: "<<tokens[0]<<" from Router: "<<tokens[1]<<cout<<"\n";
-                    // ChangeRT_RemoveMachine(tokens[0], tokens[1]);
-                }
-            }
-        } else if (find_substring(command, "print path") == 0) {
-            string tokens[10];
-            int count = 0;
-            extraction(command, tokens, count);
-            if (count >= 2) {
-                cout<<"Printing path from "<<tokens[0]<<" to "<<tokens[1]<<cout<<"\n";
-                // Print_Path(tokens[0], tokens[1]);
-            } else {
-                cout<<"Invalid format. Usage: print path \"MachineA\" to \"MachineB\"\n";
-            }
-        } else if (find_substring(command, "change edge") == 0) 
+            // Placeholder for ChangeRT_RemoveFromFile function
+            // ChangeRT_RemoveFromFile(tokens[0])
+        } 
+        
+        else if (count >= 2)
+         {
+            cout << "Removing Machine: " << tokens[0]<<" from Router: " <<tokens[1]<<"\n";
+
+
+            // Placeholder for ChangeRT_RemoveMachine function
+            // ChangeRT_RemoveMachine(tokens[0], tokens[1]);
+        }
+    }
+} else if (find_substring(command, "print path") == 0)
+ {
+    string tokens[10];
+
+    int count = 0;
+    
+    extraction(command, tokens, count);
+
+    if (count >= 2) 
+    {
+        cout << "Printing path from " <<tokens[0]<<"to "<<tokens[1]<< "\n";
+
+        // Placeholder for Print_Path function
+        // Print_Path(tokens[0], tokens[1]);
+    } 
+    
+    else 
+
+    {
+        cout << "Invalid format. Usage: print path \"MachineA\" to \"MachineB\"\n";
+    }
+} 
+
+else if (find_substring(command, "change edge") == 0) 
+
+{
+    string tokens[10];
+
+    int count = 0;
+
+
+    extraction(command, tokens, count);
+
+    if (count > 0)
+    
+    {
+        if (find_substring(tokens[0], ".csv") != -1) 
+        
         {
-            string tokens[10];
-            int count = 0;
-            extraction(command, tokens, count);
-            if (count > 0) {
-                if (find_substring(tokens[0], ".csv") != -1) // check if the first token is a file name
-                {
-                    cout<<"Changing edges using file: "<<tokens[0]<<cout<<"\n";
-                    // Graph::ChangeEdgeFromFile(tokens[0]);
-                } else if (count >= 3) // check if there are 3 tokens
-                {
-                    cout<<"Changing edge between "<<tokens[0]<<" and "<<tokens[1]<<" with weight "<<tokens[2]<<endl;
-                    // Graph::ChangeEdge(tokens[0], tokens[1], stoi(tokens[2]));
-                } else 
-                {
-                    cout<<"Invalid parameters for change edge.\n";
-                }
-            }
-        } else {
-            cout<<"Invalid command. Please try again.\n";
+
+
+            cout <<"Changing edges using file: " <<tokens[0]<<"\n";
+
+            // Placeholder for Graph::ChangeEdgeFromFile function
+            // Graph::ChangeEdgeFromFile(tokens[0]);
+        } 
+        
+        else if (count >= 3)
+        
+        {
+            cout<<"Changing edge between " <<tokens[0] <<" and " <<tokens[1]<<" with weight " << tokens[2]<< "\n";
+            // Placeholder for Graph::ChangeEdge function
+            // Graph::ChangeEdge(tokens[0], tokens[1], stoi(tokens[2]));
+        } 
+        
+        else {
+
+            cout<<"Invalid parameters for change edge.\n";
         }
     }
 }
 
-int main() {
+else if (find_substring(command, "exit") == 0) 
+{
+    cout << "Exiting the program.\n";
+    break;
+} else
+ {
+    cout << "Invalid command. Please try again.\n";
+}
+    }
+}
+
+int main()
+ {
     start_engine();
+
     return 0;
 }
