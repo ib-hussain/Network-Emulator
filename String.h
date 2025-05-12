@@ -1,6 +1,8 @@
 #ifndef STRING_H
 #define STRING_H
 #include "BaseLibrariesFile.h"
+
+
 struct String{
 private:
     mutable char *data;

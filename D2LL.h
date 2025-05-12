@@ -75,45 +75,53 @@ private:
         vector<vector<string>> all_data;
         string line;
         // Read all rows into memory
-        while (getline(file, line)) {
+        while (getline(file, line))
+         {
             stringstream ss(line);
             string cell;
             vector<string> row;
-            while (getline(ss, cell, ',')) {
+            while (getline(ss, cell, ',')) 
+            {
                 row.push_back(cell);
             }
             all_data.push_back(row);
         }
-        // Identify start index for rows and columns with label starting with 'R'
         int row_start = -1, col_start = -1;
         // Find first 'R' row
         for (int i = 1; i < all_data.size(); ++i) {
-            if (!all_data[i][0].empty() && all_data[i][0][0] == 'M') {
+            if (!all_data[i][0].empty() && all_data[i][0][0] == 'M') 
+            {
                 row_start = i;
                 break;
             }
         }
-        // Find first 'R' column
-        for (int j = 1; j < all_data[0].size(); ++j) {
-            if (!all_data[0][j].empty() && all_data[0][j][0] == 'M') {
+      
+        for (int j = 1; j < all_data[0].size(); ++j) 
+        {
+            if (!all_data[0][j].empty() && all_data[0][j][0] == 'M') 
+            {
                 col_start = j;
                 break;
             }
         }
-        if (row_start == -1 || col_start == -1) {
+        if (row_start == -1 || col_start == -1) 
+        {
             if(debug)cout << "Router labels not found in rows/columns." << endl;
             return false;
         }
-        // Write header row with empty (0,0) cell
+       
         out << ""; // top-left cell left empty
-        for (int j = col_start; j < all_data[0].size(); ++j) {
+        for (int j = col_start; j < all_data[0].size(); ++j) 
+        {
             out << "," << all_data[0][j];
         }
         out << endl;
-        // Write remaining router matrix with row labels
-        for (int i = row_start; i < all_data.size(); ++i) {
+       
+        for (int i = row_start; i < all_data.size(); ++i)
+         {
             out << all_data[i][0]; // row label
-            for (int j = col_start; j < all_data[i].size(); ++j) {
+            for (int j = col_start; j < all_data[i].size(); ++j) 
+            {
                 out << "," << all_data[i][j];
             }
             out << endl;
@@ -127,16 +135,19 @@ public:
     int rows;
     int columns;
     friend class Graph<D_Grphi6>;
-    friend ostream& operator<<(ostream& os, const D2LL<D_Grphi6>& obj){
+    friend ostream& operator<<(ostream& os, const D2LL<D_Grphi6>& obj)
+    {
         for(int i = 0; i < obj.rows; i++){
-            for(int j = 0; j < obj.columns; j++){
+            for(int j = 0; j < obj.columns; j++)
+            {
                 os << obj.o0_0o[i][j].data << ",";
             }
             os << endl;
         }
         return os;
     }
-    bool read_whole_csv(const String& file_name = NULLstring){// use for string
+    bool read_whole_csv(const String& file_name = NULLstring)
+    {// use for string
         // read the csv file and fill the all_connections
         // return true if successful, false otherwise
         const string file_to_read = (file_name == NULLstring) ? "network.csv" : csv_file_name;
@@ -149,7 +160,7 @@ public:
         if(!ExtractMachineMatrix())return false;
         vector<vector<string>> temp_data;
         string line;
-        // Read and skip the first row (column headers)
+       
         // getline(file, line); 
         while (getline(file, line)) {
             stringstream ss(line);
@@ -193,15 +204,15 @@ public:
         }
         vector<vector<string>> temp_data;
         string line;
-        // Read and skip the first row (column headers)
+       
         getline(file, line); 
         while (getline(file, line)) {
             stringstream ss(line);
             string cell;
             vector<string> row;
-            // Skip the first column (row header)
+           
             getline(ss, cell, ',');
-            // Read remaining cells
+        
             while (getline(ss, cell, ',')) {
                 row.push_back(cell);
             }

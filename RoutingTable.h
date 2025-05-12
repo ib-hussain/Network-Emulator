@@ -127,15 +127,15 @@ struct RoutT{
         }
         vector<vector<string>> temp_data;
         string line;
-        // Read and skip the first row (column headers)
+        
         getline(file, line); 
         while (getline(file, line)) {
             stringstream ss(line);
             string cell;
             vector<string> row;
-            // Skip the first column (row header)
+            
             // getline(ss, cell, ',');
-            // Read remaining cells
+          
             while (getline(ss, cell, ',')) {
                 row.push_back(cell);
             }

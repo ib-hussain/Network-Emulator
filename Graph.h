@@ -11,7 +11,7 @@ public:
     {
         nodes = -1;
     }
-    // Calculate number of routers from CSV file
+   
     long long int calculate_routers(const string &filename = "router.csv")
     {
         ifstream file(filename);
@@ -36,7 +36,7 @@ public:
         return count;
     }
 
-    // Make the whole graph of routers and create a matrix for Dijkstra's algorithm
+    
     void make_djikstra_matrix(){
         long long int num_routers = calculate_routers(); // e.g., 5
         if (num_routers <= 0)
@@ -60,7 +60,7 @@ public:
         {
             stringstream ss(line);
             string token;
-            getline(ss, token, ','); // Skip the router label in first column (e.g., R1)
+            getline(ss, token, ','); 
             long long int col = 0;
             while (getline(ss, token, ','))
             {
