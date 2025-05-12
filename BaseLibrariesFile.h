@@ -66,6 +66,10 @@ void writeMessage(const Message &msg) {
         if(debug)cout << "Failed to open recieved_messages.txt for writing." << endl;
     }
 }
+bool use_splaytree(bool abc=true){
+    static bool splayertree= abc;
+    return splayertree;
+}
 void writePath(const Message &msg) {
     ofstream file("path.txt", std::ios::app);
     if (file.is_open()) {

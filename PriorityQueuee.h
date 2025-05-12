@@ -1,26 +1,29 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 #include "BaseLibrariesFile.h"
+#include "Message.h"
 template <class PQ_DT1 = Message>
 struct PQ_Node{
 private:
     PQ_Node *next;
-    short int priority;
+    
 public:
     PQ_DT1 data;
-    PQ_Node(PQ_DT1 value,short int p){
-        data = value;
-        next = NULLpointer;
-        priority=p;
+    PQ_Node(PQ_Node<PQ_DT1>& copy, bool kill=false): data(copy.data), next(NULLpointer){ //killer constructor
+        if(kill){
+            copy.data.destructor();
+        }
     }
-    PQ_Node(){
+    PQ_Node(PQ_DT1& value):data(value){
+        next = NULLpointer;
+        
+    }
+    PQ_Node()
+    {
         data = PQ_DT1();
         next = NULLpointer;
-        priority=0;
     }
-    PQ_Node(PQ_Node<PQ_DT1>& copy){
-        data=copy.data;
-        priority = copy.priority;
+    PQ_Node(PQ_Node<PQ_DT1>& copy)data(copy.data), priority(copy.priority){
         next = NULLpointer;
     }
     PQ_Node(PQ_Node<PQ_DT1>* copy){
@@ -28,13 +31,11 @@ public:
             return;
         }
         data=copy->data;
-        priority = copy->priority;
         next = NULLpointer;
     }
     PQ_Node<PQ_DT1>& operator=(const PQ_Node<PQ_DT1>&op){
         if (this!=&op){
             data=op.data;
-            priority = op.priority;
         }   
         return *this;
     }
@@ -42,13 +43,13 @@ public:
         if (this!=op)
         {
             data=op->data;
-            priority = op->priority;
+            
         }
         return *this;
     }
     short int getPriority() const 
     { 
-        return priority; 
+        return data.priority; 
     }
 };
 template <class PQ_DT2 = Message>
@@ -61,9 +62,9 @@ public:
     bool isEmpty(){return head == NULLpointer;}
     // max-priority queue
      // insertion- max-priority
-    void insertionMAXpriority(PQ_DT2 val,short int priority) 
+    void insertionMAXpriority(PQ_DT2& val) 
     {
-        PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val, priority);
+        PQ_Node<PQ_DT2> *NN = new PQ_Node<PQ_DT2>(val);
         if (head == NULLpointer || head->getPriority() < NN->getPriority())
         {
             NN->next = head;
@@ -72,7 +73,7 @@ public:
         else
         {
             PQ_Node<PQ_DT2> *temp = head;
-            while (temp->next != NULLpointer&&temp->next->getPriority()>=priority)
+            while (temp->next != NULLpointer&&temp->next->getPriority()>=val.priority)
             {
                 temp=temp->next;
             }
@@ -91,13 +92,12 @@ public:
             return;
         }
         PQ_Node<PQ_DT2> *temp=head;
-        if (temp->next==NULLpointer||temp->getPriority()>temp->next->getPriority())
-        {
+        
             head=head->next;
             delete temp;
             temp=NULLpointer;
-            return;
-        }
+            
+        
         PQ_Node<PQ_DT2>*prev=temp;
         while (temp->next!=NULLpointer&&temp->next->getPriority()>=temp->getPriority())
         {
@@ -111,12 +111,12 @@ public:
 
 
     // peek function- max-priority
-    PQ_DT2 peekMAXpriority()const
+    PQ_DT2& peekMAXpriority()const
     {
         PQ_Node<PQ_DT2>*temp=head;
         if (temp==NULLpointer)
         {
-            cout<<"Queue is empty"<<endl;
+            if(debug)cout<<"Queue is empty"<<endl;
             return PQ_DT2();
         }
         while (temp->next!=NULLpointer&&temp->next->getPriority()>=temp->getPriority())
@@ -132,7 +132,7 @@ public:
     {
         if (isEmpty())
         {
-            cout << "Queue is empty" << endl;
+            if(debug)cout << "Queue is empty" << endl;
             return;
         }
         cout << "Max-Priority Queue: " << endl;
@@ -160,7 +160,7 @@ public:
             temp = temp->next;
             count++;
         }
-        return *(new PQ_Node<PQ_DT2>(PQ_DT2(), -1));
+        return *(new PQ_Node<PQ_DT2>(PQ_DT2()));
     }
     
     // DESTRUCTOR- max-priority
@@ -175,17 +175,17 @@ public:
     //---------------------------------------------------------------------------------
 
 
-   bool Enqueue(PQ_DT2& val, short int priority = 0)
+   bool Enqueue(PQ_DT2& val)
     {
-    if (&val==nullptr) 
+    if (&val==NULLpointer) 
     {
         return false;
     }
-    insertionMAXpriority(val,priority);
+    insertionMAXpriority(val);
     return true;
     }
     
-    PQ_DT2 Dequeue()
+    PQ_DT2& Dequeue()
     {
     if (isEmpty())
      {

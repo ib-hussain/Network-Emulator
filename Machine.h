@@ -5,10 +5,11 @@
 struct Machine{
     const String name;
     const long long int ID;
+    int weightage;
     Queue<Message> incoming;
     Queue<Message> outgoing;
     Machine(const String& namei = NULLstring):name(namei), ID(++global_ID_declare), incoming(), outgoing(){}//original
-    Machine(Machine& other):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing){}//copy
+    Machine(Machine& other):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing), weightage(other.weightage){}//copy
     Machine(Machine* other):name(other->name), ID(other->ID), incoming(other->incoming), outgoing(other->outgoing){}//copy
     Machine(Machine& other, bool kill=false):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing){//killer
         if(kill){
