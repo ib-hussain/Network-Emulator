@@ -1,7 +1,7 @@
 #ifndef GPTRSNODE_H
 #define GPTRSNODE_H
 #include "GraphNode.h"
-
+#include "BaseLibrariesFile.h"
 template <class D_Grphi2 = Router>
 struct GPtrsNode{
     int weight;
