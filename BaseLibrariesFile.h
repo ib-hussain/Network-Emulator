@@ -21,10 +21,31 @@ using namespace std;
 #define NULLdouble 0.0000
 #define NULLfloat 0.0000
 #define NULLpointer nullptr
+// ALL DECLARATIONS:
+struct LLNode;
+struct D2LL;
+struct String;
+struct GPtrsNode;
+struct GPtrs;
+struct GraphNode;
+struct Graph;
+struct Router;
+struct Machine;
+struct Message;
+struct Queue;
+struct PQ;
+struct RoutT;
+struct box_LL;
+struct Entry;
+struct Linear_List;
+struct STree;
+void start_engine();
 // GLOBAL CONSTANTS/VARIABLES:
 const unsigned short int latency_queue_forwarding = 0;
 unsigned long long int global_ID_declare = 32767;
 const bool debug = true;
+D2LL<String> all_connections;
+all_connections.read_whole_csv();
 // GLOBAL FUNCTIONS:
 void wait(){
     auto startTime = std::chrono::steady_clock::now();
