@@ -9,6 +9,12 @@ struct Machine{
     Queue<Message> outgoing;
     Machine(const String& namei = NULLstring):name(namei), ID(++global_ID_declare), incoming(), outgoing(){}//original
     Machine(Machine& other):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing){}//copy
+    Machine(Machine* other):name(other->name), ID(other->ID), incoming(other->incoming), outgoing(other->outgoing){}//copy
+    Machine(Machine& other, bool kill=false):name(other.name), ID(other.ID), incoming(other.incoming), outgoing(other.outgoing){//killer
+        if(kill){
+            other.~Machine();
+        }
+    }
     Machine():name("Default"), ID(NULLint){}//default
     Message& send_a_message(){
         return outgoing.Dequeue(true);
@@ -35,6 +41,17 @@ struct Machine{
             // process the message
         }
         return true;
+    }
+    ~Machine(){
+        while(!incoming.isEmpty()){
+            read_messages_finally();
+        }
+        while(!outgoing.isEmpty()){
+            send_a_message();
+        }
+        delete name;
+        incoming.~Queue();
+        outgoing.~Queue();
     }
 };
 
