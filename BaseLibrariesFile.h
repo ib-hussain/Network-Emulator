@@ -85,6 +85,7 @@ Message *&Send_Message(String filename1)
     // send msg //command
     // read only one message
     Message *msg = new Message("source", "destination", "payload", 1);
+    
     return msg;
 }
 Message *Send_Message_S(String filename1)
