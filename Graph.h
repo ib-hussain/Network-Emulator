@@ -1,28 +1,68 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "D2LL.h"
-
+// GraphNode<D_Grphi4>* top;
+// D2LL<RT_type_connects> LANS;
 template <class D_Grphi4 = Router, class RT_type_connects = long long int>
 struct Graph{
 private:
     bool newGraph;
 public:
-    GraphNode<D_Grphi4>* top;
-    D2LL<RT_type_connects> LANS;
+    
     long long int nodes;
     Graph():top(NULLpointer){
         nodes=-1; newGraph =true;
     }
-    bool make_graph(){
-        
-    }
-    long long int calculate_routers(){
+    long long int calculate_routers(const string& filename = "router.csv") {
+        ifstream file(filename);
+        if (!file.is_open()) {
+            if(debug)cout << "Error: Cannot open file " << filename << "\n";
+            return -1;
+        }
+        string line;
+        long long int count = 0;
+        bool skip_header = true;
+        if (skip_header && getline(file, line)){}
+        while (getline(file, line)) {
+            if (!line.empty()) ++count;
+        }
+        file.close();
+        return count;
         // read from router.csv and return the number of routers
     }
     //make the whole graph of routers, join them,then make another csv which has all the IDs of the routers, and weights and -1 instead of ?
-    void make_djikstra(){
-        LANS.initialise((2*calculate_routers()), 3);
+    void make_djikstra_matrix() {
+    long long int num_routers = calculate_routers(); // e.g., 5
+    LANS.initialise(num_routers, num_routers);
+        ifstream file("router.csv");
+        if (!file.is_open()) {
+            if(debug) cout << "Error: Cannot open file\n";
+            return;
+        }
+        string line;
+        bool skip_header = true;
+        if (skip_header && getline(file, line)) {} // skip header
+        long long int row = 0;
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string token;
+            getline(ss, token, ','); // Skip the router label in first column (e.g., R1)
+            long long int col = 0;
+            while (getline(ss, token, ',')) {
+                if (token == "?" || token == " ?" || token.empty()) {
+                    LANS.get(row, col) = -1;
+                } else {
+                    LANS.get(row, col) = stoi(token);
+                }
+                ++col;
+            }
+            ++row;
+        }
 
+        file.close();
+    }
+    bool make_graph(){
+        
     }
     //make a whole array for djikstra
     // pass that fucking matrix to every machine so it makes its all_connection
