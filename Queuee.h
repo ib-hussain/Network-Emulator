@@ -29,7 +29,16 @@ public:
     Queue(){
         head = NULLpointer;
         tail = NULLpointer;
-        nodes = -1;}
+        nodes = -1;
+    }
+    Queue(Queue<T1>& other){
+        head = other.head;
+        tail = other.tail;
+        nodes = other.nodes ;
+        other.head = NULLpointer;
+        other.tail = NULLpointer;
+        other.nodes = -1;
+    }
     bool Enqueue(T1& value){
         Q_Node<T1> *nn = new Q_Node<T1>(value);
         if (!head){

@@ -273,7 +273,7 @@ struct Message{
     String path;
     Message(String src, String dest = NULLstring, String pl, short int p = NULLint) : payload(pl), ID(++global_ID_declare), source_address(src), destination_address(dest), priority(p)
     {path = src;}
-    Message& operator++(String &other){
+    Message& operator()(String &other){
         path = path + ":" + other;
         return *this;
     }
@@ -285,11 +285,14 @@ struct Message{
     }
     Message(Message* other): ID(other->ID), priority(other->priority), source_address(other->source_address), destination_address(other->destination_address), payload(other->payload), path(other->path){}
     ~Message(){
-        // destructor
+        destructor();
+    }
+    bool destructor(){
         delete source_address;
         delete destination_address;
         delete payload;
         delete path;
+        return true;
     }
 };
 Message *&Send_Message(String filename1)

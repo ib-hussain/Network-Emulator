@@ -426,29 +426,34 @@ public:
         delete[] o0_0o;
     }
 };
-template <class D_Grphi4 = Router, class Adj_List_type = String, class RT_type_connects = int>
+D2LL<String> all_connections;
+all_connections.read_whole_csv();
+template <class D_Grphi4 = Router, class RT_type_connects = long long int>
 struct Graph{
+private:
+    bool newVar;
+public:
     GraphNode<D_Grphi4>* top;
-    D2LL<Adj_List_type> all_connections;
     D2LL<RT_type_connects> LANS;
-    int nodes;
+    long long int nodes;
     Graph():top(NULLpointer){
-        nodes=-1;
-        if(all_connections.read_whole_csv() && LANS.read_almost_all_csv()){
-            make_graph();
-        }
-        else{
-            finish_graph();
-        }
+        nodes=-1; newVar =true;
     }
     bool make_graph(){
-        int r=0, c=0;
-        for(;r;r++){
-            for(;c;c++){
-
-            }
-        }
+        
     }
+    long long int calculate_routers(){
+        // read from router.csv and return the number of routers
+    }
+    //make the whole graph of routers, join them,then make another csv which has all the IDs of the routers, and weights and -1 instead of ?
+    void make_djikstra(){
+        LANS.initialise((2*calculate_routers()), 3);
+
+    }
+    //make a whole array for djikstra
+    // pass that fucking matrix to every machine so it makes its all_connection
+    // pass that to every fucking router
+    // use the ID's for tracking maybe
     bool add_node(){
         if(!top){
             D_Grphi4* datai = new D_Grphi4();
@@ -468,9 +473,7 @@ struct Graph{
         (!top)? return : if(debug)cout<<"Top node isnt deleted still"<<endl;
         delete top;
     }
-    void finish_graph(){
-        if(!top) return;
-    }
+    void finish_graph(){}
     GraphNode<D_Grphi4>& operator[](long long int IDi){
         static GraphNode<D_Grphi4> NullNode7;
         if((IDi < 0)||(IDi > global_ID_declare+1)) return NullNode7;
