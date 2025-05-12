@@ -1,6 +1,7 @@
 #ifndef MACHINE_H
 #define MACHINE_H
 #include "Queuee.h"
+#include "BaseLibrariesFile.h"
 //perfected------------------------------------------------------------------------
 struct Machine{
     const String name;

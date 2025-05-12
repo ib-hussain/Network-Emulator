@@ -1,7 +1,7 @@
 #ifndef GPTRS_H
 #define GPTRS_H
 #include "GPtrsNode.h"
-
+#include "BaseLibrariesFile.h"
 template <class D_Grphi3 = Router>
 struct GPtrs{
 private:

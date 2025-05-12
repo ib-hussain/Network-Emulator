@@ -13,7 +13,7 @@
 // making 1 stack question from DSA lab sessional
 //  and also make a function to check if the tree is empty
 //  and also make a function to check if the tree is balanced
-
+#include "BaseLibrariesFile.h"
 template <class D_ST1 = Machine> 
 struct ST_Node{
     D_ST1 data;
