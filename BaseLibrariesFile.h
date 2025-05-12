@@ -86,8 +86,6 @@ void wait(){
     std::this_thread::sleep_for(std::chrono::milliseconds(latency_queue_forwarding));
 }
 
-
-
 int stringToInt(const String& str)
  {
     int result = 0;
@@ -111,11 +109,6 @@ int stringToInt(const String& str)
 
     return negative ? -result : result;
 }
-
-
-
-
-
 
 Message *&Send_Message(String filename1)
 {
@@ -264,7 +257,6 @@ file.close();
 return first_message;
 
 }
-
 
 String Print_Path(String start, String end)
 {
