@@ -4,8 +4,9 @@ The **Network Emulator** simulates a computer network consisting of routers and 
 
 ---
 <p align="center">
-  <img src="network_emulaotr.jpg" alt="Network Emulator" width="600">
+  <img src="network_emulaotr.jpg" alt="Network Emulator">
 </p>
+
 ## 📡 Overview
 
 - Each device in the network (router/computer) has a unique address.
