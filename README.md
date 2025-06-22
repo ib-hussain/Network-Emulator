@@ -3,7 +3,9 @@
 The **Network Emulator** simulates a computer network consisting of routers and end machines (e.g., computers). Messages are sent from one device to another using destination addresses and follow a routing path across multiple routers. This project aims to simulate routing, queuing, and message handling in a simplified network.
 
 ---
-
+<p align="center">
+  <img src="network_emulaotr.jpg" alt="Network Emulator" width="600">
+</p>
 ## 📡 Overview
 
 - Each device in the network (router/computer) has a unique address.
