@@ -1,7 +1,7 @@
 #ifndef D2LL_H
 #define D2LL_H
 #include "LLNode.h"
-#include "BaseLibrariesFile.h"
+#include "String/String.h"
 
 template <class D_Grphi6 = String>
 struct D2LL{
