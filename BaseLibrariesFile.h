@@ -16,8 +16,8 @@ using namespace std;
 
 // MACROS:
 #define NULLint 0
-#define FULLint 32765
-#define UNDERint -32765
+#define FULLint INT_MAX
+#define UNDERint INT_MIN
 #define NULLchar '\0'
 #define NULLstring ""
 #define NULLbool NULL
@@ -26,23 +26,7 @@ using namespace std;
 #define NULLpointer nullptr
 
 // ALL DECLARATIONS:
-struct LLNode;
-struct D2LL;
-struct String;
-struct GPtrsNode;
-struct GPtrs;
-struct GraphNode;
-struct Graph;
-struct Router;
-struct Machine;
-struct Message;
-struct Queue;
-struct PQ;
-struct RoutT;
-struct box_LL;
-struct Entry;
-struct Linear_List;
-struct STree;
+
 void start_engine();
 
 // GLOBAL CONSTANTS/VARIABLES:
@@ -337,18 +321,4 @@ String Print_Path(String start, String end)
 
     return NULLstring;
 }
-#include "RoutingTable.h"
-#include "Graph.h"
-#include "Machine.h"
-#include "Message.h"
-#include "PriorityQueuee.h"
-#include "SplayTree.h"
-#include "Queuee.h"
-#include "Router.h" 
-#include "GPtrs.h"
-#include "D2LL.h"
-#include "SinglyLinkedList.h"
-#include "GPtrsNode.h"
-#include "LLNode.h"
-
 #endif

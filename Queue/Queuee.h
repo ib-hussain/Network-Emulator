@@ -1,6 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#include "BaseLibrariesFile.h" 
+#include "../BaseLibrariesFile.h"
 //perfected------------------------------------------------------------------------
 // making a queue class that will be used in the graph class to hold the nodes that are being visited in the graph
 // so that we can use any data type in the queue
@@ -24,8 +24,8 @@ struct Queue{
 private:
     Q_Node<T1> *head;
     Q_Node<T1> *tail;
-public:
     int nodes;
+public:
     Queue(){
         head = NULLpointer;
         tail = NULLpointer;
