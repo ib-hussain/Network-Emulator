@@ -1,7 +1,7 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 #include "../BaseLibrariesFile.h"
-#include "../M.h"
+#include "../Message.h"
 template <class PQ_DT1 = Message>
 struct PQ_Node
 {
@@ -61,8 +61,7 @@ public:
     }
 };
 template <class PQ_DT2 = Message>
-struct PQ
-{
+struct PQ{
 public:
     PQ_Node<PQ_DT2> *head;
     int nodes;
