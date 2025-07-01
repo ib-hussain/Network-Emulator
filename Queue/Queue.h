@@ -1,6 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include "../BaseLibrariesFile.h"
+#include "../Message.h"
 //perfected------------------------------------------------------------------------
 // making a queue class that will be used in the graph class to hold the nodes that are being visited in the graph
 // so that we can use any data type in the queue

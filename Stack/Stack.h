@@ -1,6 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
-
+// perfected -------------------------------------------------
 #include "../BaseLibrariesFile.h"
 #include "../LinkedList/NodeLL.h"
 

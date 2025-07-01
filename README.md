@@ -4,8 +4,11 @@ The **Network Emulator** simulates a computer network consisting of routers and 
 
 ---
 <p align="center">
-  <img src="network_emulaotr.jpg" alt="Network Emulator">
+  <img src="pictures/network_emulaotr.jpg" alt="Network Emulator">
 </p>
+<!-- <p align="center">
+  <img src="pictures/demo1.png" alt="Network Emulator">
+</p> -->
 
 ## 📡 Overview
 
