@@ -13,7 +13,7 @@ The **Network Emulator** simulates a computer network consisting of routers and 
 ## 📡 Overview
 
 - Each device in the network (router/computer) has a unique address.
-- Messages are routed using **routing tables** which decide the next hop based on the destination address.
+- Messages are routed using **routing tables**, which decide the next hop based on the destination address.
 - The emulator supports routing table updates and message forwarding with priority handling and trace logging.
 
 ---
@@ -77,7 +77,7 @@ send msg 3:6:M6:M9:Hello World!
 
 ---
 
-## 🗺️ Phase 2: Network Construction
+## Network Construction
 
 - The full network is defined in `network.csv` as a weighted adjacency matrix.
 - Each machine is connected to a single router.
@@ -112,8 +112,7 @@ Example:
 - `network_emulator.cpp`: Main logic
 - `network.csv`: Defines network topology
 - `*.txt / *.csv`: Input & Output files for messages and routing table updates
-- `.vscode/`: (Ignored via `.gitignore`)
-
+- `*.h`: Header files containing the structures necessary for the project
 ---
 
 ## 👨‍💻 Contributors
