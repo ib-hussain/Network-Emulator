@@ -81,7 +81,7 @@ send msg 3:6:M6:M9:Hello World!
 
 - The full network is defined in `network.csv` as a weighted adjacency matrix.
 - Each machine is connected to a single router.
-- Routers are connected to each other with weighted edges.
+- Routers are connected with weighted edges.
 - Uses **Dijkstra’s algorithm** to generate routing tables from each router to every destination.
 
 ### Sample Matrix Format (`network.csv`)
@@ -111,24 +111,8 @@ Example:
 
 - `network_emulator.cpp`: Main logic
 - `network.csv`: Defines network topology
-- `*.txt / *.csv`: Input files for messages and routing table updates
+- `*.txt / *.csv`: Input & Output files for messages and routing table updates
 - `.vscode/`: (Ignored via `.gitignore`)
-
----
-
-## 🚀 Getting Started
-
-1. Clone the repository:
-   git clone https://github.com/ib-hussain/Network-Emulator.git
-   cd Network-Emulator
-
-
-2. Run the program (depending on your language):
-   python main.py
-
-or
-g++ main.cpp -o emulator && ./emulator
-
 
 ---
 
